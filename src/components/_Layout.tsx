@@ -1,11 +1,17 @@
 import React from 'react';
+import Navbar from './Navbar';
 
 type props = {
   children: any;
 };
 
 const Layout = ({ children }: props) => {
-  return <div>This is layout {children}</div>;
+  return (
+    <React.Fragment>
+      <Navbar />
+      {children}
+    </React.Fragment>
+  );
 };
 
 export default Layout;
