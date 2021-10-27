@@ -58,24 +58,24 @@ const Home = () => {
       <Hero />
       <Divider />
 
-      <ContentSection className='mt-6'>
-        <h2 className='text-gray-800 font-bold text-3xl text-center'>
+      <ContentSection className='mt-12'>
+        <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
           Food Cuisine
         </h2>
 
-        <div className='mt-4 grid gap-4 lg:gap-x-12 lg:gap-y-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className='mt-8 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {cuisines.map((cuisine) => (
             <CuisineCard name={cuisine.name} />
           ))}
         </div>
       </ContentSection>
 
-      <ContentSection className='mt-12 mb-8'>
-        <h2 className='text-gray-800 font-bold text-3xl text-center'>
+      <ContentSection className='mt-12 mb-16'>
+        <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
           Recommended Recipes
         </h2>
 
-        <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+        <div className='mt-8 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {recipes.map((recipe) => (
             <RecipeCard key={recipe.title} recipe={recipe} />
           ))}
@@ -83,8 +83,8 @@ const Home = () => {
       </ContentSection>
       <Divider />
 
-      <ContentSection className='mt-6 mb-8'>
-        <h2 className='text-gray-800 font-bold text-3xl text-center'>
+      <ContentSection className='mt-12 mb-10'>
+        <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
           Find Recipe
         </h2>
 
