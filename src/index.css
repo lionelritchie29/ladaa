@@ -6,3 +6,7 @@
 * {
   font-family: 'Montserrat', sans-serif;
 }
+
+.primary-bg-yellow {
+  background-color: #fad586 !important;
+}
