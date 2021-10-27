@@ -1,6 +1,6 @@
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import Layout from './components/_Layout';
-import Home from './pages/home/Home';
+import Home from './pages/Home';
 
 export default function App() {
   return (
