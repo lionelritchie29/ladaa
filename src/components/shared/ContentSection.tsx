@@ -7,7 +7,7 @@ type props = {
 
 const ContentSection = ({ children, className }: props) => {
   return (
-    <section className={`w-11/12 lg:w-4/5 mx-auto ${className}`}>
+    <section className={`w-11/12 lg:w-3/4 mx-auto ${className}`}>
       {children}
     </section>
   );
