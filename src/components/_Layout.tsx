@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from './Navbar';
+import Footer from './shared/Footer';
 
 type props = {
   children: any;
@@ -10,6 +11,7 @@ const Layout = ({ children }: props) => {
     <React.Fragment>
       <Navbar />
       {children}
+      <Footer />
     </React.Fragment>
   );
 };
