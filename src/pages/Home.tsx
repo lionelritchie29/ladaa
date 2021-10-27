@@ -1,56 +1,30 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import CuisineCard from '../components/home/CuisineCard';
 import Hero from '../components/home/Hero';
 import ContentSection from '../components/shared/ContentSection';
 import Divider from '../components/shared/Divider';
 import RecipeCard from '../components/shared/RecipeCard';
 import { Recipe } from '../models/recipe';
+import RecipeService from '../services/in-memory/recipe-service';
 
 const Home = () => {
+  const recipeService = new RecipeService();
+  const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+  const fetchRecipes = async () => {
+    const res = await recipeService.getRecipes();
+    setRecipes(res);
+  };
+
+  useEffect(() => {
+    fetchRecipes();
+  }, []);
+
   const cuisines = [
     { name: 'Indonesia', image: '' },
     { name: 'Western', image: '' },
     { name: 'Chinese', image: '' },
     { name: 'Italian', image: '' },
-  ];
-
-  const recipes: Recipe[] = [
-    {
-      title: 'Banana Pecan',
-      image: '',
-      servingSize: 1,
-      servingInMinutes: 15,
-    },
-    {
-      title: 'Pasta with Garlic',
-      image: '',
-      servingSize: 5,
-      servingInMinutes: 15,
-    },
-    {
-      title: 'Trinidian Chicken',
-      image: '',
-      servingSize: 6,
-      servingInMinutes: 20,
-    },
-    {
-      title: 'Nasi Cumi',
-      image: '',
-      servingSize: 4,
-      servingInMinutes: 20,
-    },
-    {
-      title: 'Ayam Wangi',
-      image: '',
-      servingSize: 2,
-      servingInMinutes: 20,
-    },
-    {
-      title: 'Burger Deluxe',
-      image: '',
-      servingSize: 3,
-      servingInMinutes: 30,
-    },
   ];
 
   return (
