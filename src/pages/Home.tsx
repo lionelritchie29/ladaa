@@ -11,6 +11,7 @@ const Home = () => {
     { name: 'Indonesia', image: '' },
     { name: 'Western', image: '' },
     { name: 'Chinese', image: '' },
+    { name: 'Italian', image: '' },
   ];
 
   const recipes: Recipe[] = [
@@ -62,7 +63,7 @@ const Home = () => {
           Food Cuisine
         </h2>
 
-        <div className='mt-4 grid gap-4 lg:gap-x-12 lg:gap-y-4 grid-cols-2 lg:grid-cols-3'>
+        <div className='mt-4 grid gap-4 lg:gap-x-12 lg:gap-y-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {cuisines.map((cuisine) => (
             <CuisineCard name={cuisine.name} />
           ))}
@@ -74,7 +75,7 @@ const Home = () => {
           Recommended Recipes
         </h2>
 
-        <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {recipes.map((recipe) => (
             <RecipeCard key={recipe.title} recipe={recipe} />
           ))}
@@ -110,7 +111,7 @@ const Home = () => {
           </div>
         </div>
 
-        <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+        <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {recipes
             .filter((_, idx) => idx < 4)
             .map((recipe) => (
