@@ -71,8 +71,12 @@ const RecipeDetail = () => {
   return (
     <section>
       <ContentSection className='mt-4 md:flex'>
-        <div className='rounded-md overflow-hidden md:w-1/2 lg:w-2/5 shadow-md'>
-          <img className='w-full' src={dummyRecipe} alt='Dummy Recipe' />
+        <div className='rounded-md overflow-hidden md:w-1/2 lg:w-2/5'>
+          <img
+            className='w-full shadow-md'
+            src={dummyRecipe}
+            alt='Dummy Recipe'
+          />
         </div>
         <div className='mt-3 md:w-1/2 md:ml-6 lg:w-3/5'>
           <h2 className='font-bold text-2xl'>Serundeng</h2>
@@ -82,12 +86,15 @@ const RecipeDetail = () => {
             to popular Indonesian dishes like nasi lemak and lontong sayur.
           </p>
 
-          <div className='flex justify-center mt-4'>
+          <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
             <SecondaryButton
-              className='lg:w-1/2 md:mr-4'
+              className='lg:w-1/2 lg:mr-4 mr-1'
               text='View Video Tutor'
             />
-            <SecondaryButton className='lg:w-1/2' text='Add Video Tutor' />
+            <SecondaryButton
+              className='lg:w-1/2 md:mt-3 lg:mt-0'
+              text='Add Video Tutor'
+            />
           </div>
         </div>
       </ContentSection>
