@@ -5,6 +5,7 @@ import ContentSection from '../components/shared/ContentSection';
 import SecondaryButton from '../components/shared/SecondaryButton';
 import RecipeRating from '../components/recipe-detail/RatingCard';
 import { RecipeRating as RecipeRatingModel } from '../models/recipe-rating';
+import RecipeService from '../services/in-memory/recipe-service';
 
 type RouteParams = {
   id: string;
@@ -12,6 +13,17 @@ type RouteParams = {
 
 const RecipeDetail = () => {
   const { id } = useParams<RouteParams>();
+  const recipeService = new RecipeService();
+  const recipe = recipeService.getRecipe(parseInt(id));
+
+  // const fetchRecipes = async () => {
+  //   const res = recipeService.getRecipes();
+  //   setRecipes(res);
+  // };
+
+  // useEffect(() => {
+  //   fetchRecipes();
+  // }, []);
 
   const ratings: RecipeRatingModel[] = [
     {
@@ -57,34 +69,21 @@ const RecipeDetail = () => {
     { name: 'Sodium', amount: '2mg' },
   ];
 
-  const ingredients = [
-    { name: 'butter', amount: '1 tsbp' },
-    { name: 'cauliflower florets', amount: '2 cups' },
-    { name: 'cheese', amount: '2 tsbp' },
-    { name: 'garlic', amount: '5 cloves' },
-    { name: 'pasta', amount: '6 ounces' },
-    { name: 'red pepper flakes', amount: '2 pinches' },
-    { name: 'extra virgin olive oil', amount: '1 tsbp' },
-    { name: 'salt and pepper', amount: '2 servings' },
-  ];
-
   return (
     <section>
       <ContentSection className='mt-6 lg:mt-9 md:flex'>
         <div className='rounded-md overflow-hidden md:w-1/2 lg:w-2/5'>
           <img
             className='w-full shadow-md'
-            src={dummyRecipe}
+            src={recipe.image}
             alt='Dummy Recipe'
           />
         </div>
         <div className='mt-3 md:w-1/2 md:ml-6 lg:w-3/5'>
-          <h2 className='font-bold text-2xl'>Serundeng</h2>
-          <p className='text-sm mt-2'>
-            Serundeng is a seasoned crispy coconut flakes that you’ll find
-            pretty common in Indonesian kitchen. Serundeng is used as a garnish
-            to popular Indonesian dishes like nasi lemak and lontong sayur.
-          </p>
+          <h2 className='font-bold text-2xl'>{recipe.title}</h2>
+          <p
+            className='text-sm mt-2 text-justify'
+            dangerouslySetInnerHTML={{ __html: recipe.summary }}></p>
 
           <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
             <SecondaryButton
@@ -158,9 +157,9 @@ const RecipeDetail = () => {
       <ContentSection className='mt-9'>
         <h2 className='text-2xl font-bold'>Ingredients</h2>
         <div className='mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
-          {ingredients.map((ingredient) => (
+          {recipe.extendedIngredients.map((ingredient) => (
             <div className='p-3 bg-yellow-100 rounded-md'>
-              {ingredient.name} ({ingredient.amount})
+              {ingredient.name} ({ingredient.amount + ' ' + ingredient.unit})
             </div>
           ))}
         </div>

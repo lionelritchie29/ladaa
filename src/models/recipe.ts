@@ -1,6 +1,40 @@
+import { Ingredient } from './ingredient';
+import { Instruction } from './instruction';
+
 export interface Recipe {
+  vegetarian: boolean;
+  vegan: boolean;
+  glutenFree: boolean;
+  dairyFree: boolean;
+  veryHealthy: boolean;
+  cheap: boolean;
+  veryPopular: boolean;
+  sustainable: boolean;
+  weightWatcherSmartPoints: number;
+  gaps: string;
+  lowFodmap: boolean;
+  aggregateLikes: number;
+  spoonacularScore: number;
+  healthScore: number;
+  creditsText: string;
+  license: string;
+  sourceName: string;
+  pricePerServing: number;
+  extendedIngredients: Ingredient[];
+  id: number;
   title: string;
+  readyInMinutes: number;
+  servings: number;
+  sourceUrl: string;
   image: string;
-  servingSize: number;
-  servingInMinutes: number;
+  imageType: string;
+  summary: string;
+  cuisines: any[];
+  dishTypes: string[];
+  diets: string[];
+  occasions: string[];
+  instructions: string;
+  analyzedInstructions: Instruction;
+  originalId: null | string | number;
+  spoonacularSourceUrl: string;
 }

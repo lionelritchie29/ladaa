@@ -12,7 +12,7 @@ const Home = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   const fetchRecipes = async () => {
-    const res = await recipeService.getRecipes();
+    const res = recipeService.getRecipes();
     setRecipes(res);
   };
 
@@ -50,9 +50,11 @@ const Home = () => {
         </h2>
 
         <div className='mt-8 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          {recipes.map((recipe) => (
-            <RecipeCard key={recipe.title} recipe={recipe} />
-          ))}
+          {recipes
+            .filter((_, idx) => idx < 8)
+            .map((recipe) => (
+              <RecipeCard key={recipe.title} recipe={recipe} />
+            ))}
         </div>
       </ContentSection>
       <Divider />
