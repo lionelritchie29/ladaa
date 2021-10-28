@@ -1,5 +1,6 @@
 import React from 'react';
 import heroImg from '../../assets/images/hero.jpg';
+import SecondaryButton from '../shared/SecondaryButton';
 
 const Hero = () => {
   const heroBg = {
@@ -24,12 +25,8 @@ const Hero = () => {
           Need any recipes? Find it all in Ladaa!
         </h1>
         <div className='mt-24 flex flex-col md:flex-row'>
-          <button className='md:mr-4 w-72 primary-bg-yellow shadow-md text-gray-700 font-semibold px-4 py-3 rounded-full'>
-            Find Recipe
-          </button>
-          <button className='mt-3 md:mt-0 w-72 primary-bg-yellow shadow-md text-gray-700 font-semibold px-4 py-3 rounded-full'>
-            My Saved Recipes
-          </button>
+          <SecondaryButton className='w-72' text='Find Recipe' />
+          <SecondaryButton className='w-72' text='My Saved Recipes' />
         </div>
       </div>
     </section>

@@ -10,3 +10,12 @@
 .primary-bg-yellow {
   background-color: #fad586 !important;
 }
+
+.secondary-bg-green {
+  background-color: #96bb7c !important;
+}
+
+.btn {
+  min-width: 44px;
+  min-height: 44px;
+}
