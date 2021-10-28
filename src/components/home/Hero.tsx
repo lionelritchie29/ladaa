@@ -25,7 +25,10 @@ const Hero = () => {
           Need any recipes? Find it all in Ladaa!
         </h1>
         <div className='mt-24 flex flex-col md:flex-row'>
-          <SecondaryButton className='w-72' text='Find Recipe' />
+          <SecondaryButton
+            className='w-72 md:mr-4 lg:mr-8 xl:mr-12'
+            text='Find Recipe'
+          />
           <SecondaryButton className='w-72' text='My Saved Recipes' />
         </div>
       </div>

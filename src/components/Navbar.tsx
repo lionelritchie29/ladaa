@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { If, Then } from 'react-if';
+import { Link } from 'react-router-dom';
 
 const Navbar = () => {
   const [showProfilePopUpMenu, setShowProfilePopUpMenu] = useState(false);
@@ -15,17 +16,18 @@ const Navbar = () => {
             </div>
             <div className='hidden lg:block lg:ml-6'>
               <div className='flex space-x-4'>
-                <a
+                <Link
+                  to='/'
                   href='#'
                   className='bg-green-900 text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Home
-                </a>
+                </Link>
                 <a
                   href='#'
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Saved Recipe
                 </a>
-                <a
+                {/* <a
                   href='#'
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Login
@@ -34,7 +36,7 @@ const Navbar = () => {
                   href='#'
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Register
-                </a>
+                </a> */}
               </div>
             </div>
           </div>
@@ -148,7 +150,7 @@ const Navbar = () => {
                 <If condition={showProfilePopUpMenu}>
                   <Then>
                     <div
-                      className='origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
+                      className='z-50ssssssssssssssssssssssssss origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none'
                       role='menu'
                       aria-orientation='vertical'
                       aria-labelledby='user-menu-button'
@@ -191,17 +193,18 @@ const Navbar = () => {
         <Then>
           <div className='lg:hidden' id='mobile-menu'>
             <div className='px-2 pt-2 pb-3 space-y-1'>
-              <a
+              <Link
+                to='/'
                 href='#'
                 className='bg-green-900 text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Home
-              </a>
+              </Link>
               <a
                 href='#'
                 className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Saved Recipes
               </a>
-              <a
+              {/* <a
                 href='#'
                 className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Login
@@ -210,7 +213,7 @@ const Navbar = () => {
                 href='#'
                 className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Register
-              </a>
+              </a> */}
             </div>
             <div className='pt-4 pb-3 border-t border-green-700'>
               <div className='flex items-center px-5'>

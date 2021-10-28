@@ -51,6 +51,7 @@ const Home = () => {
 
         <div className='mt-8 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {recipes
+            .sort(() => Math.random() - 0.5)
             .filter((_, idx) => idx < 8)
             .map((recipe) => (
               <RecipeCard key={recipe.title} recipe={recipe} />
@@ -89,6 +90,7 @@ const Home = () => {
 
         <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {recipes
+            .sort(() => Math.random() - 0.5)
             .filter((_, idx) => idx < 4)
             .map((recipe) => (
               <RecipeCard key={recipe.title} recipe={recipe} />
