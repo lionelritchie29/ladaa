@@ -70,7 +70,7 @@ const RecipeDetail = () => {
 
   return (
     <section>
-      <ContentSection className='mt-4 md:flex'>
+      <ContentSection className='mt-6 lg:mt-9 md:flex'>
         <div className='rounded-md overflow-hidden md:w-1/2 lg:w-2/5'>
           <img
             className='w-full shadow-md'
