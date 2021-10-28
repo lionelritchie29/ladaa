@@ -15,15 +15,7 @@ const RecipeDetail = () => {
   const { id } = useParams<RouteParams>();
   const recipeService = new RecipeService();
   const recipe = recipeService.getRecipe(parseInt(id));
-
-  // const fetchRecipes = async () => {
-  //   const res = recipeService.getRecipes();
-  //   setRecipes(res);
-  // };
-
-  // useEffect(() => {
-  //   fetchRecipes();
-  // }, []);
+  const nutritions = recipeService.getRecipeNutrition(parseInt(id));
 
   const ratings: RecipeRatingModel[] = [
     {
@@ -45,30 +37,6 @@ const RecipeDetail = () => {
       content: 'I made a delicious serundeng with this recipe!',
     },
   ];
-
-  const gudNutritions = [
-    { name: 'Calories', amount: '36' },
-    { name: 'Fat', amount: '12g' },
-    { name: 'Carbohydrate', amount: '49g' },
-    { name: 'Sugar', amount: '21g' },
-    { name: 'Cholestrol', amount: '1mg' },
-    { name: 'Sodium', amount: '2mg' },
-    { name: 'Sodium', amount: '2mg' },
-    { name: 'Sodium', amount: '2mg' },
-    { name: 'Sodium', amount: '2mg' },
-  ];
-
-  const badNutritions = [
-    { name: 'Calories', amount: '36' },
-    { name: 'Fat', amount: '12g' },
-    { name: 'Carbohydrate', amount: '49g' },
-    { name: 'Sugar', amount: '21g' },
-    { name: 'Cholestrol', amount: '1mg' },
-    { name: 'Sodium', amount: '2mg' },
-    { name: 'Sodium', amount: '2mg' },
-    { name: 'Sodium', amount: '2mg' },
-  ];
-
   return (
     <section>
       <ContentSection className='mt-6 lg:mt-9 md:flex'>
@@ -133,9 +101,9 @@ const RecipeDetail = () => {
           <div>
             <h3 className='font-semibold text-green-800 text'>Good:</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
-              {gudNutritions.map((nutrition) => (
+              {nutritions.good.map((nutrition) => (
                 <div className='bg-green-700 text-white text-sm p-3 inline-block rounded-md'>
-                  {nutrition.name} ({nutrition.amount})
+                  {nutrition.title} ({nutrition.amount})
                 </div>
               ))}
             </div>
@@ -144,9 +112,9 @@ const RecipeDetail = () => {
           <div className='mt-8'>
             <h3 className='font-semibold text-red-800 text'>Bad:</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
-              {badNutritions.map((nutrition) => (
+              {nutritions.bad.map((nutrition) => (
                 <div className='bg-red-700 text-white text-sm p-3 inline-block rounded-md'>
-                  {nutrition.name} ({nutrition.amount})
+                  {nutrition.title} ({nutrition.amount})
                 </div>
               ))}
             </div>

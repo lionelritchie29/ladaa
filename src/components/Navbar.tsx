@@ -12,7 +12,9 @@ const Navbar = () => {
         <div className='relative flex items-center justify-between h-16'>
           <div className='flex items-center px-2 lg:px-0'>
             <div className='flex-shrink-0'>
-              <h1 className='text-white font-bold text-xl'>LADAA</h1>
+              <Link to='/'>
+                <h1 className='text-white font-bold text-xl'>LADAA</h1>
+              </Link>
             </div>
             <div className='hidden lg:block lg:ml-6'>
               <div className='flex space-x-4'>
