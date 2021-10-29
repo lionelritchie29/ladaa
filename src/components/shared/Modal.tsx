@@ -1,7 +1,11 @@
 import React from 'react';
 
-const Modal = () => {
-  return <div>Hehe</div>;
+type props = {
+  children: any;
+};
+
+const Modal = ({ children }: props) => {
+  return <div>Hehe {children}</div>;
 };
 
 export default Modal;

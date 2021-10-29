@@ -2,7 +2,7 @@ import React, { Children, useState } from 'react';
 import { If, Then } from 'react-if';
 import Modal from '../components/shared/Modal';
 
-const ModalContext = React.createContext<any>(null);
+export const ModalContext = React.createContext<any>(null);
 
 type props = {
   children: any;
@@ -10,15 +10,15 @@ type props = {
 
 const ModalProvider = ({ children }: props) => {
   const [modal, setModal] = useState({
-    show: true, //false,
-    contentHTML: '',
+    show: false, //false,
+    content: null,
   });
 
   return (
     <ModalContext.Provider value={[modal, setModal]}>
       <If condition={modal.show}>
         <Then>
-          <Modal />
+          <Modal>{modal.content}</Modal>
         </Then>
       </If>
 

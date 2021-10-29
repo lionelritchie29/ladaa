@@ -1,15 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import CuisineCard from '../components/home/CuisineCard';
 import Hero from '../components/home/Hero';
 import ContentSection from '../components/shared/ContentSection';
 import Divider from '../components/shared/Divider';
 import RecipeCard from '../components/shared/RecipeCard';
+import ModalProvider, { ModalContext } from '../contexts/ModalContext';
 import { Recipe } from '../models/recipe';
 import RecipeService from '../services/in-memory/recipe-service';
 
 const Home = () => {
   const recipeService = new RecipeService();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+
+  //test modal
+  const [modal, setModal] = useContext(ModalContext);
+  //end test modal
 
   const fetchRecipes = async () => {
     const res = recipeService.getRecipes();
@@ -18,6 +23,15 @@ const Home = () => {
 
   useEffect(() => {
     fetchRecipes();
+
+    setModal({
+      show: true,
+      content: (
+        <div>
+          <h1>Modal Here</h1>
+        </div>
+      ),
+    });
   }, []);
 
   const cuisines = [
