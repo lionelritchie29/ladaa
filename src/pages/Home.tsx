@@ -12,10 +12,6 @@ const Home = () => {
   const recipeService = new RecipeService();
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
-  //test modal
-  const [modal, setModal] = useContext(ModalContext);
-  //end test modal
-
   const fetchRecipes = async () => {
     const res = recipeService.getRecipes();
     setRecipes(res);
@@ -23,15 +19,6 @@ const Home = () => {
 
   useEffect(() => {
     fetchRecipes();
-
-    setModal({
-      show: true,
-      content: (
-        <div>
-          <h1>Modal Here</h1>
-        </div>
-      ),
-    });
   }, []);
 
   const cuisines = [

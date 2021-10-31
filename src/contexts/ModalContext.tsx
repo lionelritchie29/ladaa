@@ -12,13 +12,24 @@ const ModalProvider = ({ children }: props) => {
   const [modal, setModal] = useState({
     show: false, //false,
     content: null,
+    title: '',
   });
+
+  const close = () => {
+    setModal({
+      show: false,
+      content: null,
+      title: '',
+    });
+  };
 
   return (
     <ModalContext.Provider value={[modal, setModal]}>
       <If condition={modal.show}>
         <Then>
-          <Modal>{modal.content}</Modal>
+          <Modal title={modal.title} onClose={close}>
+            {modal.content}
+          </Modal>
         </Then>
       </If>
 

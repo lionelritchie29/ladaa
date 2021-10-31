@@ -1,11 +1,13 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useParams } from 'react-router-dom';
-import dummyRecipe from '../assets/images/recipes/dummy-recipe.jpg';
+import dummyIngredientWidget from '../assets/images/ingredient-widget.png';
+import dummyEquipmentWidget from '../assets/images/equipment-widget.png';
 import ContentSection from '../components/shared/ContentSection';
 import SecondaryButton from '../components/shared/SecondaryButton';
 import RecipeRating from '../components/recipe-detail/RatingCard';
 import { RecipeRating as RecipeRatingModel } from '../models/recipe-rating';
 import RecipeService from '../services/in-memory/recipe-service';
+import { ModalContext } from '../contexts/ModalContext';
 
 type RouteParams = {
   id: string;
@@ -13,6 +15,7 @@ type RouteParams = {
 
 const RecipeDetail = () => {
   const { id } = useParams<RouteParams>();
+  const [modal, setModal] = useContext(ModalContext);
   const recipeService = new RecipeService();
   const recipe = recipeService.getRecipe(parseInt(id));
   const nutritions = recipeService.getRecipeNutrition(parseInt(id));
@@ -37,12 +40,68 @@ const RecipeDetail = () => {
       content: 'I made a delicious serundeng with this recipe!',
     },
   ];
+
+  const showIngredientModal = () => {
+    setModal({
+      show: true,
+      title: 'Recipe Ingredients',
+      content: <img src={dummyIngredientWidget} className='w-full' />,
+    });
+  };
+
+  const showEquipmentModal = () => {
+    setModal({
+      show: true,
+      title: 'Recipe Equipments',
+      content: <img src={dummyEquipmentWidget} className='w-full' />,
+    });
+  };
+
+  const showInstructionsModal = () => {
+    setModal({
+      show: true,
+      title: 'Recipe Instructions',
+      content: (
+        <>
+          <h3 className='font-semibold mb'>How to make {recipe.title}</h3>
+          <ul className='pt-2 leading-7 text-sm lg:text-base'>
+            <li>1. Preheat the oven to 200 degrees F.</li>
+            <li>
+              2. Whisk together the flour, pecans, granulated sugar, light brown
+              sugar, baking powder, baking soda, and salt in a medium bowl.
+            </li>
+            <li>
+              3. Whisk together the eggs, buttermilk, butter and vanilla extract
+              and vanilla bean in a small bowl.
+            </li>
+            <li>
+              4. Add the egg mixture to the dry mixture and gently mix to
+              combine. Do not overmix.
+            </li>
+            <li>
+              5. Let the batter sit at room temperature for at least 15 minutes
+              and up to 30 minutes before using.
+            </li>
+            <li>
+              6. Heat a cast iron or nonstick griddle pan over medium heat and
+              brush with melted butter. Once the butter begins to sizzle, use 2
+              tablespoons of the batter for each pancake and cook until the
+              bubbles appear on the surface and the bottom is golden brown,
+              about 2 minutes, flip over and cook until the bottom is golden
+              brown, 1 to 2 minutes longer.
+            </li>
+          </ul>
+        </>
+      ),
+    });
+  };
+
   return (
     <section>
       <ContentSection className='mt-6 lg:mt-9 md:flex'>
         <div className='rounded-md overflow-hidden md:w-1/2 lg:w-2/5'>
           <img
-            className='w-full shadow-md'
+            className='w-full shadow-md object-cover'
             src={recipe.image}
             alt='Dummy Recipe'
           />
@@ -59,7 +118,7 @@ const RecipeDetail = () => {
               text='View Video Tutor'
             />
             <SecondaryButton
-              className='lg:w-1/2 md:mt-3 lg:mt-0'
+              className='lg:w-1/2 mt-0 md:mt-3 lg:mt-0'
               text='Add Video Tutor'
             />
           </div>
@@ -136,13 +195,19 @@ const RecipeDetail = () => {
       <ContentSection className='mt-9 mb-8'>
         <h2 className='text-2xl font-bold'>Premium Features</h2>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-3'>
-          <button className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+          <button
+            onClick={() => showIngredientModal()}
+            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             See Ingredients
           </button>
-          <button className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+          <button
+            onClick={() => showInstructionsModal()}
+            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             See Instructions
           </button>
-          <button className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+          <button
+            onClick={() => showEquipmentModal()}
+            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             See Equipments
           </button>
           <button className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
