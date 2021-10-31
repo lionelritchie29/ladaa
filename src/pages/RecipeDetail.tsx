@@ -8,6 +8,8 @@ import RecipeRating from '../components/recipe-detail/RatingCard';
 import { RecipeRating as RecipeRatingModel } from '../models/recipe-rating';
 import RecipeService from '../services/in-memory/recipe-service';
 import { ModalContext } from '../contexts/ModalContext';
+import { LocalStorageService } from '../services/storage/LocalStorageService';
+import { RECIPE_STORAGE_KEY } from '../constant';
 
 type RouteParams = {
   id: string;
@@ -96,6 +98,33 @@ const RecipeDetail = () => {
     });
   };
 
+  const addToSavedRecipe = () => {
+    const storageService = new LocalStorageService();
+    const success = storageService.save(RECIPE_STORAGE_KEY, recipe, 'id');
+
+    if (success) {
+      setModal({
+        show: true,
+        title: 'Success!',
+        content: (
+          <p>
+            Succesfully saved <b>{recipe.title}</b> to your saved recipes!
+          </p>
+        ),
+      });
+    } else {
+      setModal({
+        show: true,
+        title: 'Ups!',
+        content: (
+          <p>
+            You already have <b>{recipe.title}</b> in your saved recipes!
+          </p>
+        ),
+      });
+    }
+  };
+
   return (
     <section>
       <ContentSection className='mt-6 lg:mt-9 md:flex'>
@@ -143,7 +172,7 @@ const RecipeDetail = () => {
         <h2 className='font-semibold text-lg mt-3'>Ratings from other users</h2>
         <div className='grid grid-cols-1 gap-3'>
           {ratings.map((rating) => (
-            <RecipeRating rating={rating} />
+            <RecipeRating rating={rating} key={rating.id} />
           ))}
         </div>
 
@@ -161,7 +190,9 @@ const RecipeDetail = () => {
             <h3 className='font-semibold text-green-800 text'>Good:</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
               {nutritions.good.map((nutrition) => (
-                <div className='bg-green-700 text-white text-sm p-3 inline-block rounded-md'>
+                <div
+                  key={nutrition.title}
+                  className='bg-green-700 text-white text-sm p-3 inline-block rounded-md'>
                   {nutrition.title} ({nutrition.amount})
                 </div>
               ))}
@@ -172,7 +203,9 @@ const RecipeDetail = () => {
             <h3 className='font-semibold text-red-800 text'>Bad:</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
               {nutritions.bad.map((nutrition) => (
-                <div className='bg-red-700 text-white text-sm p-3 inline-block rounded-md'>
+                <div
+                  key={nutrition.title}
+                  className='bg-red-700 text-white text-sm p-3 inline-block rounded-md'>
                   {nutrition.title} ({nutrition.amount})
                 </div>
               ))}
@@ -185,7 +218,7 @@ const RecipeDetail = () => {
         <h2 className='text-2xl font-bold'>Ingredients</h2>
         <div className='mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
           {recipe.extendedIngredients.map((ingredient) => (
-            <div className='p-3 bg-yellow-100 rounded-md'>
+            <div key={ingredient.id} className='p-3 bg-yellow-100 rounded-md'>
               {ingredient.name} ({ingredient.amount + ' ' + ingredient.unit})
             </div>
           ))}
@@ -210,7 +243,9 @@ const RecipeDetail = () => {
             className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             See Equipments
           </button>
-          <button className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+          <button
+            onClick={() => addToSavedRecipe()}
+            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             Add to Saved
           </button>
         </div>

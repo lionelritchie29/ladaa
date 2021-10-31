@@ -4,6 +4,7 @@ import Layout from './components/_Layout';
 import ModalProvider from './contexts/ModalContext';
 import Home from './pages/Home';
 import RecipeDetail from './pages/RecipeDetail';
+import SavedRecipe from './pages/SavedRecipe';
 
 export default function App() {
   return (
@@ -14,6 +15,9 @@ export default function App() {
           <Switch>
             <Route path='/recipes/:id'>
               <RecipeDetail />
+            </Route>
+            <Route path='/saved-recipes'>
+              <SavedRecipe />
             </Route>
             <Route path='/'>
               <Home />

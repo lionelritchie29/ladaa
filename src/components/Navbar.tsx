@@ -24,11 +24,11 @@ const Navbar = () => {
                   className='bg-green-900 text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Home
                 </Link>
-                <a
-                  href='#'
+                <Link
+                  to='/saved-recipes'
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Saved Recipe
-                </a>
+                </Link>
                 {/* <a
                   href='#'
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
@@ -201,11 +201,11 @@ const Navbar = () => {
                 className='bg-green-900 text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Home
               </Link>
-              <a
-                href='#'
+              <Link
+                to='/saved-recipes'
                 className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Saved Recipes
-              </a>
+              </Link>
               {/* <a
                 href='#'
                 className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>

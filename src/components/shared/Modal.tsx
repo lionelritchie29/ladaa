@@ -12,7 +12,7 @@ const Modal = ({ children, onClose, title }: props) => {
 
   return (
     <div
-      className='fixed top-0 left-0 h-screen w-full z-50 flex justify-center items-center'
+      className='fixed top-0 left-0 h-screen w-full z-40 flex justify-center items-center'
       style={{ backgroundColor: 'rgba(0,0,0,0.75)' }}>
       <div className='w-5/6 lg:w-3/5 bg-white rounded'>
         <div className='bg-green-800 py-3 text-gray-200 px-3 font-semibold flex justify-between'>
