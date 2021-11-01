@@ -10,6 +10,7 @@ import RecipeService from '../services/in-memory/recipe-service';
 import { ModalContext } from '../contexts/ModalContext';
 import { LocalStorageService } from '../services/storage/LocalStorageService';
 import { RECIPE_STORAGE_KEY } from '../constant';
+import dummyVideo from '../assets/videos/dummy-video.webm';
 
 type RouteParams = {
   id: string;
@@ -107,7 +108,7 @@ const RecipeDetail = () => {
         show: true,
         title: 'Success!',
         content: (
-          <p>
+          <p className='p-8'>
             Succesfully saved <b>{recipe.title}</b> to your saved recipes!
           </p>
         ),
@@ -117,13 +118,42 @@ const RecipeDetail = () => {
         show: true,
         title: 'Ups!',
         content: (
-          <p>
+          <p className='p-8'>
             You already have <b>{recipe.title}</b> in your saved recipes!
           </p>
         ),
       });
     }
   };
+
+  const showVideo = () => {
+    setModal({
+        show: true,
+        title: 'Video Tutorial',
+        content: (
+          <div>
+            <video src={dummyVideo} controls autoPlay muted className='w-full'></video>
+          </div>
+        ),
+      });
+  }
+
+  const addVideo = () => {
+    setModal({
+      show: true,
+      title: 'Video Tutorial',
+      content: (
+        <form>
+          <div>
+            <input type="text" className="border border-gray-300 p-2 rounded-lg w-full" />
+          </div>
+          <div className="text-right mt-2">
+            <SecondaryButton className="" onClickCallback={() => {}} text="Add Video" />
+          </div>
+        </form>
+      ),
+    });
+  }
 
   return (
     <section>
@@ -143,10 +173,12 @@ const RecipeDetail = () => {
 
           <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
             <SecondaryButton
+              onClickCallback={showVideo}
               className='lg:w-1/2 lg:mr-4 mr-1'
               text='View Video Tutor'
             />
             <SecondaryButton
+              onClickCallback={addVideo}
               className='lg:w-1/2 mt-0 md:mt-3 lg:mt-0'
               text='Add Video Tutor'
             />
@@ -165,7 +197,7 @@ const RecipeDetail = () => {
             {/* <button className='text-white btn shadow bg-green-600 px-5 font-semibold py-2 rounded-full'>
               Add Rating
             </button> */}
-            <SecondaryButton text='Add Rating' className='px-10' />
+            <SecondaryButton onClickCallback={() => {}} text='Add Rating' className='px-10' />
           </div>
         </form>
 
