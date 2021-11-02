@@ -29,6 +29,11 @@ const Navbar = () => {
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
                   Saved Recipe
                 </Link>
+                <Link
+                  to='/meal-plan'
+                  className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
+                  Meal Plan
+                </Link>
                 {/* <a
                   href='#'
                   className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
@@ -162,22 +167,6 @@ const Navbar = () => {
                         className='block px-4 py-2 text-sm text-gray-700'
                         role='menuitem'
                         tabIndex={-1}
-                        id='user-menu-item-0'>
-                        Your Profile
-                      </a>
-                      <a
-                        href='#'
-                        className='block px-4 py-2 text-sm text-gray-700'
-                        role='menuitem'
-                        tabIndex={-1}
-                        id='user-menu-item-1'>
-                        Settings
-                      </a>
-                      <a
-                        href='#'
-                        className='block px-4 py-2 text-sm text-gray-700'
-                        role='menuitem'
-                        tabIndex={-1}
                         id='user-menu-item-2'>
                         Sign out
                       </a>
@@ -205,6 +194,11 @@ const Navbar = () => {
                 to='/saved-recipes'
                 className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>
                 Saved Recipes
+              </Link>
+              <Link
+                to='/meal-plan'
+                className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>
+                Meal Plan
               </Link>
               {/* <a
                 href='#'

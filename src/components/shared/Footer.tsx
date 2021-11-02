@@ -6,11 +6,12 @@ const Footer = () => {
 
   return (
     <>
-      {location.pathname !== '/saved-recipes' && (
-        <div className='bg-green-800 text-gray-100 text-center py-5 font-semibold'>
-          Copyright 2021 &copy; Ladaa
-        </div>
-      )}
+      {location.pathname !== '/saved-recipes' &&
+        location.pathname !== '/meal-plan' && (
+          <div className='bg-green-800 text-gray-100 text-center py-5 font-semibold'>
+            Copyright 2021 &copy; Ladaa
+          </div>
+        )}
     </>
   );
 };

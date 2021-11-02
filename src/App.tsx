@@ -3,6 +3,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Layout from './components/_Layout';
 import ModalProvider from './contexts/ModalContext';
 import Home from './pages/Home';
+import MealPlan from './pages/MealPlan';
 import RecipeDetail from './pages/RecipeDetail';
 import SavedRecipe from './pages/SavedRecipe';
 
@@ -18,6 +19,9 @@ export default function App() {
             </Route>
             <Route path='/saved-recipes'>
               <SavedRecipe />
+            </Route>
+            <Route path='/meal-plan'>
+              <MealPlan />
             </Route>
             <Route path='/'>
               <Home />
