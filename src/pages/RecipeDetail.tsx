@@ -128,15 +128,20 @@ const RecipeDetail = () => {
 
   const showVideo = () => {
     setModal({
-        show: true,
-        title: 'Video Tutorial',
-        content: (
-          <div>
-            <video src={dummyVideo} controls autoPlay muted className='w-full'></video>
-          </div>
-        ),
-      });
-  }
+      show: true,
+      title: 'Video Tutorial',
+      content: (
+        <div>
+          <video
+            src={dummyVideo}
+            controls
+            autoPlay
+            muted
+            className='w-full'></video>
+        </div>
+      ),
+    });
+  };
 
   const addVideo = () => {
     setModal({
@@ -145,15 +150,22 @@ const RecipeDetail = () => {
       content: (
         <form>
           <div>
-            <input type="text" className="border border-gray-300 p-2 rounded-lg w-full" />
+            <input
+              type='text'
+              className='border border-gray-300 p-2 rounded-lg w-full'
+            />
           </div>
-          <div className="text-right mt-2">
-            <SecondaryButton className="" onClickCallback={() => {}} text="Add Video" />
+          <div className='text-right mt-2'>
+            <SecondaryButton
+              className=''
+              onClickCallback={() => {}}
+              text='Add Video'
+            />
           </div>
         </form>
       ),
     });
-  }
+  };
 
   return (
     <section>
@@ -197,7 +209,11 @@ const RecipeDetail = () => {
             {/* <button className='text-white btn shadow bg-green-600 px-5 font-semibold py-2 rounded-full'>
               Add Rating
             </button> */}
-            <SecondaryButton onClickCallback={() => {}} text='Add Rating' className='px-10' />
+            <SecondaryButton
+              onClickCallback={() => {}}
+              text='Add Rating'
+              className='px-10'
+            />
           </div>
         </form>
 
