@@ -1,6 +1,22 @@
 import React from 'react';
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+type FormData = {
+  email: string;
+  password: string;
+};
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onLogin: SubmitHandler<FormData> = ({ email, password }) => {
+    console.log({ email, password });
+  };
+
   return (
     <div className='w-11/12 md:w-3/4 mx-auto my-16 rounded-lg overflow-hidden'>
       <div
@@ -16,19 +32,22 @@ const Login = () => {
 
             <div className='mt-8'>
               <div className='mt-6'>
-                <form action='#' method='POST' className='space-y-6'>
+                <form onSubmit={handleSubmit(onLogin)} className='space-y-6'>
                   <div>
                     <label className='block text-sm font-medium text-white'>
                       Email address
                     </label>
                     <div className='mt-1'>
                       <input
+                        {...register('email', { required: true })}
                         id='email'
                         type='email'
-                        required
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
+                    {errors.email && (
+                      <small className='text-red-500'>Email is required</small>
+                    )}
                   </div>
 
                   <div className='space-y-1'>
@@ -37,12 +56,17 @@ const Login = () => {
                     </label>
                     <div className='mt-1'>
                       <input
+                        {...register('password', { required: true })}
                         id='password'
                         type='password'
-                        required
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
+                    {errors.password && (
+                      <small className='text-red-500'>
+                        Password is required
+                      </small>
+                    )}
                   </div>
 
                   <div className='flex items-center justify-between'>

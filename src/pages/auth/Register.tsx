@@ -1,6 +1,29 @@
 import React from 'react';
 
+import { useForm, SubmitHandler } from 'react-hook-form';
+
+type FormData = {
+  username: string;
+  email: string;
+  password: string;
+  confirmPassword: string;
+};
+
 const Register = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<FormData>();
+
+  const onRegister: SubmitHandler<FormData> = ({
+    email,
+    password,
+    username,
+  }) => {
+    console.log({ email, password, username });
+  };
+
   return (
     <div className='w-11/12 md:w-3/4 mx-auto my-16 rounded-lg overflow-hidden'>
       <div
@@ -16,19 +39,31 @@ const Register = () => {
 
             <div className='mt-8'>
               <div className='mt-6'>
-                <form action='#' method='POST' className='space-y-6'>
+                <form onSubmit={handleSubmit(onRegister)} className='space-y-6'>
                   <div>
                     <label className='block text-sm font-medium text-white'>
                       Username
                     </label>
                     <div className='mt-1'>
                       <input
+                        {...register('username', {
+                          required: 'Username is required',
+                          minLength: {
+                            value: 5,
+                            message:
+                              'Username must be at least 5 characters long',
+                          },
+                        })}
                         id='username'
                         type='text'
-                        required
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
+                    {errors.username && (
+                      <small className='text-red-500'>
+                        {errors.username.message}
+                      </small>
+                    )}
                   </div>
 
                   <div>
@@ -37,12 +72,19 @@ const Register = () => {
                     </label>
                     <div className='mt-1'>
                       <input
+                        {...register('email', {
+                          required: 'Email is required',
+                        })}
                         id='email'
                         type='email'
-                        required
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
+                    {errors.email && (
+                      <small className='text-red-500'>
+                        {errors.email.message}
+                      </small>
+                    )}
                   </div>
 
                   <div className='space-y-1'>
@@ -51,12 +93,27 @@ const Register = () => {
                     </label>
                     <div className='mt-1'>
                       <input
+                        {...register('password', {
+                          required: {
+                            value: true,
+                            message: 'Password is required',
+                          },
+                          minLength: {
+                            value: 8,
+                            message:
+                              'Password must be at least 8 characters long',
+                          },
+                        })}
                         id='password'
                         type='password'
-                        required
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
+                    {errors.password && (
+                      <small className='text-red-500'>
+                        {errors.password.message}
+                      </small>
+                    )}
                   </div>
 
                   <div className='space-y-1'>
@@ -65,12 +122,19 @@ const Register = () => {
                     </label>
                     <div className='mt-1'>
                       <input
+                        {...register('confirmPassword', {
+                          required: 'Password is required',
+                        })}
                         id='conf_password'
                         type='password'
-                        required
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
+                    {errors.confirmPassword?.type == 'required' && (
+                      <small className='text-red-500'>
+                        {errors.confirmPassword.message}
+                      </small>
+                    )}
                   </div>
 
                   <div className='flex items-center justify-between'>
