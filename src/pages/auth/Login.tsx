@@ -1,20 +1,30 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { UsersService } from '../../services/api/users-service';
 
 type FormData = {
   email: string;
   password: string;
 };
 
-const Login = () => {
+type props = {
+  usersService: UsersService;
+};
+
+const Login = ({ usersService }: props) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<FormData>();
 
-  const onLogin: SubmitHandler<FormData> = ({ email, password }) => {
-    console.log({ email, password });
+  const onLogin: SubmitHandler<FormData> = async ({ email, password }) => {
+    const success = await usersService.validate(email, password);
+    if (success) {
+      alert('Success Login!');
+    } else {
+      alert('User does not exist or wrong combination of username or password');
+    }
   };
 
   return (

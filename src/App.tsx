@@ -8,8 +8,11 @@ import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
 import RecipeDetail from './pages/RecipeDetail';
 import SavedRecipe from './pages/SavedRecipe';
+import { UsersService } from './services/api/users-service';
 
 export default function App() {
+  const usersService = new UsersService();
+
   return (
     <Router>
       <ScrollToTop />
@@ -17,10 +20,10 @@ export default function App() {
         <Layout>
           <Switch>
             <Route path='/auth/login'>
-              <Login />
+              <Login usersService={usersService} />
             </Route>
             <Route path='/auth/register'>
-              <Register />
+              <Register usersService={usersService} />
             </Route>
             <Route path='/recipes/:id'>
               <RecipeDetail />

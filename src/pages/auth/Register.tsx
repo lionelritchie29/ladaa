@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useRef } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { UsersService } from '../../services/api/users-service';
 
 type FormData = {
   username: string;
@@ -9,19 +10,33 @@ type FormData = {
   confirmPassword: string;
 };
 
-const Register = () => {
+type props = {
+  usersService: UsersService;
+};
+
+const Register = ({ usersService }: props) => {
   const {
     register,
     handleSubmit,
+    watch,
     formState: { errors },
   } = useForm<FormData>();
 
-  const onRegister: SubmitHandler<FormData> = ({
+  const password = useRef({});
+  password.current = watch('password', '');
+
+  const onRegister: SubmitHandler<FormData> = async ({
     email,
     password,
     username,
   }) => {
-    console.log({ email, password, username });
+    const isExist = await usersService.checkExist(username, email);
+    if (isExist) {
+      alert('Email or username already exists');
+    } else {
+      await usersService.add(username, email, password);
+      alert('Register success!');
+    }
   };
 
   return (
@@ -123,14 +138,17 @@ const Register = () => {
                     <div className='mt-1'>
                       <input
                         {...register('confirmPassword', {
-                          required: 'Password is required',
+                          required: 'Confirm password is required',
+                          validate: (value) =>
+                            value === password.current ||
+                            'Password does not match',
                         })}
                         id='conf_password'
                         type='password'
                         className='text-gray-900 appearance-none block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm'
                       />
                     </div>
-                    {errors.confirmPassword?.type == 'required' && (
+                    {errors.confirmPassword && (
                       <small className='text-red-500'>
                         {errors.confirmPassword.message}
                       </small>
