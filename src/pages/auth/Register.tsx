@@ -37,7 +37,7 @@ const Register = ({ usersService }: props) => {
     reset,
     formState: { errors },
   } = useForm<FormData>();
-  const makeToast = useContext(ToastContext);
+  const [makeToast, makeToastPromise] = useContext(ToastContext);
 
   const password = useRef({});
   password.current = watch('password', '');
@@ -51,9 +51,11 @@ const Register = ({ usersService }: props) => {
     if (isExist) {
       makeToast!('Oops.. email already exists', "error");
     } else {
-      makeToast!('We are processing your request, please wait...', 'info');
-      await usersService.add(username, email, password);
-      makeToast!('Register Success!', 'success');
+      makeToastPromise!(usersService.add(username, email, password), {
+        success: 'Register Success! You can login now',
+        pending: 'We are processing your request, please wait...',
+        failed: 'Failed when processing your request...'
+      });
       reset();
       return <Redirect push to="/" />;
     }

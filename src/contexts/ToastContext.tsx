@@ -2,12 +2,21 @@ import React, { createContext, useEffect } from 'react'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
-export const ToastContext = createContext<null | ((content: string, type: 'success' | 'error' | 'info' | 'default') => void)>(
-  null
-);
+export type ToastContextType = [
+  makeToast: (content: string, type: 'success' | 'error' | 'info' | 'default') => void,
+  makeToastPromise: (promiseFunc: Promise<any>, message: ToastPromiseMessage) => void,
+];
+
+export const ToastContext = createContext<any>(null);
 
 type props = {
   children: any;
+}
+
+type ToastPromiseMessage = {
+  success: string;
+  pending: string;
+  error: string;
 }
 
 const ToastProvider = ({children}: props) => {
@@ -39,8 +48,12 @@ const ToastProvider = ({children}: props) => {
     }
   }
 
+  const makeToastPromise = (promiseFunc: Promise<any>, message: ToastPromiseMessage) => {
+    toast.promise(promiseFunc, message);
+  }
+
   return (
-    <ToastContext.Provider value={makeToast}>
+    <ToastContext.Provider value={[makeToast, makeToastPromise]}>
       <ToastContainer />
 
       {children}

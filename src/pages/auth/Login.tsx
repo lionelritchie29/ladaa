@@ -4,7 +4,7 @@ import { Redirect, useHistory } from 'react-router';
 import { Link } from 'react-router-dom';
 import { USER_STORAGE_KEY } from '../../constant';
 import { AuthContext, ClientUser } from '../../contexts/AuthContext';
-import { ToastContext } from '../../contexts/ToastContext';
+import { ToastContext, ToastContextType } from '../../contexts/ToastContext';
 import { User } from '../../models/user';
 import { UsersService } from '../../services/api/users-service';
 import { LocalStorageService } from '../../services/storage/LocalStorageService';
@@ -27,7 +27,7 @@ const Login = ({ usersService, storageService }: props) => {
   } = useForm<FormData>();
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const [loggedUser, setLoggedUser, logout]: [ClientUser | null, React.Dispatch<React.SetStateAction<ClientUser | null>>, Function] = useContext(AuthContext);
-  const makeToast = useContext(ToastContext);
+  const [makeToast, makeToastPromise] = useContext(ToastContext) as ToastContextType;
 
   if (loggedUser) {
     return <Redirect to="/" />;
