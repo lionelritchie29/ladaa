@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Redirect, useHistory } from 'react-router';
 import { USER_STORAGE_KEY } from '../../constant';
 import { AuthContext, ClientUser } from '../../contexts/AuthContext';
 import { User } from '../../models/user';
@@ -23,18 +24,22 @@ const Login = ({ usersService, storageService }: props) => {
     formState: { errors },
   } = useForm<FormData>();
 
-  const [loggedUser, setLoggedUser]: [ClientUser | null, React.Dispatch<React.SetStateAction<ClientUser | null>>] = useContext(AuthContext);
+  const [loggedUser, setLoggedUser, logout]: [ClientUser | null, React.Dispatch<React.SetStateAction<ClientUser | null>>, Function] = useContext(AuthContext);
+
+  if (loggedUser) {
+    return <Redirect to="/" />;
+  }
 
   const onLogin: SubmitHandler<FormData> = async ({ email, password }) => {
     const user: User | boolean = await usersService.validate(email, password);
     if (user) {
-      alert('Success Login!');
       storageService.save(USER_STORAGE_KEY, (user as User).id);
       setLoggedUser({
         id: (user as User).id,
         username: (user as User).username,
         email: (user as User).email,
       });
+      return <Redirect to="/" />;
     } else {
       alert('User does not exist or wrong combination of username or password');
     }

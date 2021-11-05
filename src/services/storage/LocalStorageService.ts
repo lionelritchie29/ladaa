@@ -32,4 +32,8 @@ export class LocalStorageService {
   public save (key: string, newData: any) {
     localStorage.setItem(key, newData);
   }
+
+  public delete(key: string) {
+    localStorage.removeItem(key);
+  }
 }

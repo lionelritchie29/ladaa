@@ -1,6 +1,8 @@
-import React, { useRef } from 'react';
+import React, { useContext, useRef } from 'react';
 
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { Redirect } from 'react-router';
+import { AuthContext, ClientUser } from '../../contexts/AuthContext';
 import { UsersService } from '../../services/api/users-service';
 
 type FormData = {
@@ -15,6 +17,17 @@ type props = {
 };
 
 const Register = ({ usersService }: props) => {
+  const [loggedUser, setLoggedUser, logout]: [
+    ClientUser | null,
+    React.Dispatch<React.SetStateAction<ClientUser | null>>,
+    Function
+  ] = useContext(AuthContext);
+
+  if (loggedUser) {
+    return <Redirect to="/" />;
+  }
+
+
   const {
     register,
     handleSubmit,

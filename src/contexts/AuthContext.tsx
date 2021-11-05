@@ -36,12 +36,17 @@ const AuthProvider = ({ children, storageService, usersService } : props) => {
     }
   }
 
+  const logout = async () => {
+    storageService.delete(USER_STORAGE_KEY);
+    setLoggedUser(null);
+  }
+
   useEffect(() => {
     checkLoggedUser();
   }, []);
 
   return (
-    <AuthContext.Provider value={[loggedUser, setLoggedUser]}>
+    <AuthContext.Provider value={[loggedUser, setLoggedUser, logout]}>
       {children}
     </AuthContext.Provider>
   )

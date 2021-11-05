@@ -42,7 +42,7 @@ const Home = () => {
 
         <div className='mt-8 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {cuisines.map((cuisine) => (
-            <CuisineCard name={cuisine.name} />
+            <CuisineCard key={cuisine.name} name={cuisine.name} />
           ))}
         </div>
       </ContentSection>
