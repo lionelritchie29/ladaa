@@ -1,7 +1,7 @@
 export class LocalStorageService {
-  public save(key: string, newData: any, objKey: string): boolean {
+  public saveArray(key: string, newData: any, objKey: string): boolean {
     if (localStorage.getItem(key)) {
-      const data = this.get(key);
+      const data = this.getArray(key);
       if (data.some((d) => d[objKey] == newData[objKey])) return false;
 
       data.push(newData);
@@ -13,7 +13,7 @@ export class LocalStorageService {
     }
   }
 
-  public get(key: string) {
+  public getArray(key: string) {
     const data = JSON.parse(localStorage.getItem(key)!);
     if (!data) return [];
 
@@ -22,5 +22,14 @@ export class LocalStorageService {
     } else {
       return [data];
     }
+  }
+
+  public get(key: string) {
+    const data = localStorage.getItem(key);
+    return data;
+  }
+
+  public save (key: string, newData: any) {
+    localStorage.setItem(key, newData);
   }
 }

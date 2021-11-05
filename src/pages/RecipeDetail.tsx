@@ -101,7 +101,7 @@ const RecipeDetail = () => {
 
   const addToSavedRecipe = () => {
     const storageService = new LocalStorageService();
-    const success = storageService.save(RECIPE_STORAGE_KEY, recipe, 'id');
+    const success = storageService.saveArray(RECIPE_STORAGE_KEY, recipe, 'id');
 
     if (success) {
       setModal({

@@ -1,6 +1,9 @@
 import React from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
+import { USER_STORAGE_KEY } from '../../constant';
+import { User } from '../../models/user';
 import { UsersService } from '../../services/api/users-service';
+import { LocalStorageService } from '../../services/storage/LocalStorageService';
 
 type FormData = {
   email: string;
@@ -9,9 +12,10 @@ type FormData = {
 
 type props = {
   usersService: UsersService;
+  storageService: LocalStorageService;
 };
 
-const Login = ({ usersService }: props) => {
+const Login = ({ usersService, storageService }: props) => {
   const {
     register,
     handleSubmit,
@@ -19,9 +23,10 @@ const Login = ({ usersService }: props) => {
   } = useForm<FormData>();
 
   const onLogin: SubmitHandler<FormData> = async ({ email, password }) => {
-    const success = await usersService.validate(email, password);
-    if (success) {
+    const user: User | boolean = await usersService.validate(email, password);
+    if (user) {
       alert('Success Login!');
+      storageService.save(USER_STORAGE_KEY, (user as User).id);
     } else {
       alert('User does not exist or wrong combination of username or password');
     }

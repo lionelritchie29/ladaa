@@ -9,9 +9,11 @@ import MealPlan from './pages/MealPlan';
 import RecipeDetail from './pages/RecipeDetail';
 import SavedRecipe from './pages/SavedRecipe';
 import { UsersService } from './services/api/users-service';
+import { LocalStorageService } from './services/storage/LocalStorageService';
 
 export default function App() {
   const usersService = new UsersService();
+  const storageService = new LocalStorageService();
 
   return (
     <Router>
@@ -20,7 +22,7 @@ export default function App() {
         <Layout>
           <Switch>
             <Route path='/auth/login'>
-              <Login usersService={usersService} />
+              <Login usersService={usersService} storageService={storageService}/>
             </Route>
             <Route path='/auth/register'>
               <Register usersService={usersService} />

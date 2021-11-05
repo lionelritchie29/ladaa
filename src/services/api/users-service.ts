@@ -39,7 +39,7 @@ export class UsersService extends BaseService {
     console.log(res);
   }
 
-  async validate(email: string, password: string): Promise<boolean> {
+  async validate(email: string, password: string): Promise<boolean | User> {
     const result: AxiosResult<User[]> = await axios.get(this.apiUrl);
     const user = result.data.find((u) => u.email === email);
     if (user) {
@@ -48,7 +48,7 @@ export class UsersService extends BaseService {
         this.APP_SECRET,
       ).toString(enc.Utf8);
       if (password === decryptedPass) {
-        return true;
+        return user;
       } else {
         return false;
       }

@@ -7,7 +7,7 @@ import { LocalStorageService } from '../services/storage/LocalStorageService';
 
 const SavedRecipe = () => {
   const storageService = new LocalStorageService();
-  const recipes: Recipe[] = storageService.get(RECIPE_STORAGE_KEY);
+  const recipes: Recipe[] = storageService.getArray(RECIPE_STORAGE_KEY);
 
   return (
     <ContentSection className='mt-12 mb-16'>

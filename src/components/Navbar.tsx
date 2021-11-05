@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { If, Then } from 'react-if';
 import { Link } from 'react-router-dom';
+import { LocalStorageService } from '../services/storage/LocalStorageService';
 
 const Navbar = () => {
   const [showProfilePopUpMenu, setShowProfilePopUpMenu] = useState(false);
