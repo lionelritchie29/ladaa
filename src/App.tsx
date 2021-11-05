@@ -10,43 +10,51 @@ import Home from './pages/Home';
 import MealPlan from './pages/MealPlan';
 import RecipeDetail from './pages/RecipeDetail';
 import SavedRecipe from './pages/SavedRecipe';
+import LocalRecipeService from './services/in-memory/recipe-service';
 import { UsersService } from './services/api/users-service';
 import { LocalStorageService } from './services/storage/LocalStorageService';
 
 export default function App() {
   const usersService = new UsersService();
   const storageService = new LocalStorageService();
+  const localRecipeService = new LocalRecipeService();
 
   return (
     <Router>
       <ScrollToTop />
       <AuthProvider usersService={usersService} storageService={storageService}>
-          <ToastProvider>
-            <ModalProvider>
-              <Layout>
-                <Switch>
-                  <Route path="/auth/login">
-                    <Login usersService={usersService} storageService={storageService} />
-                  </Route>
-                  <Route path="/auth/register">
-                    <Register usersService={usersService} />
-                  </Route>
-                  <Route path="/recipes/:id">
-                    <RecipeDetail />
-                  </Route>
-                  <Route path="/saved-recipes">
-                    <SavedRecipe />
-                  </Route>
-                  <Route path="/meal-plan">
-                    <MealPlan />
-                  </Route>
-                  <Route path="/">
-                    <Home />
-                  </Route>
-                </Switch>
-              </Layout>
-            </ModalProvider>
-          </ToastProvider>
+        <ToastProvider>
+          <ModalProvider>
+            <Layout>
+              <Switch>
+                <Route path='/auth/login'>
+                  <Login
+                    usersService={usersService}
+                    storageService={storageService}
+                  />
+                </Route>
+                <Route path='/auth/register'>
+                  <Register usersService={usersService} />
+                </Route>
+                <Route path='/recipes/:id'>
+                  <RecipeDetail
+                    recipeService={localRecipeService}
+                    storageService={storageService}
+                  />
+                </Route>
+                <Route path='/saved-recipes'>
+                  <SavedRecipe />
+                </Route>
+                <Route path='/meal-plan'>
+                  <MealPlan recipeService={localRecipeService} />
+                </Route>
+                <Route path='/'>
+                  <Home recipeService={localRecipeService} />
+                </Route>
+              </Switch>
+            </Layout>
+          </ModalProvider>
+        </ToastProvider>
       </AuthProvider>
     </Router>
   );

@@ -6,9 +6,12 @@ import RecipeCard from '../components/shared/RecipeCard';
 import RecipeService from '../services/in-memory/recipe-service';
 import { If, Then } from 'react-if';
 
-const MealPlan = () => {
+type props = {
+  recipeService: RecipeService;
+};
+
+const MealPlan = ({ recipeService }: props) => {
   const [showPlan, setShowPlan] = useState(false);
-  const recipeService = new RecipeService();
   const recipes = recipeService.getRecipes();
 
   const generatePlan = () => {

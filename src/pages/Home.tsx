@@ -1,17 +1,17 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CuisineCard from '../components/home/CuisineCard';
-import CustomListBox from '../components/home/CustomListBox';
-import CustomRadioGroup from '../components/home/CustomRadioGroup';
 import Hero from '../components/home/Hero';
 import ContentSection from '../components/shared/ContentSection';
 import Divider from '../components/shared/Divider';
 import RecipeCard from '../components/shared/RecipeCard';
-import ModalProvider, { ModalContext } from '../contexts/ModalContext';
 import { Recipe } from '../models/recipe';
 import RecipeService from '../services/in-memory/recipe-service';
 
-const Home = () => {
-  const recipeService = new RecipeService();
+type props = {
+  recipeService: RecipeService;
+};
+
+const Home = ({ recipeService }: props) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
 
   const fetchRecipes = async () => {

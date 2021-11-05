@@ -16,10 +16,14 @@ type RouteParams = {
   id: string;
 };
 
-const RecipeDetail = () => {
+type props = {
+  recipeService: RecipeService;
+  storageService: LocalStorageService;
+};
+
+const RecipeDetail = ({ recipeService, storageService }: props) => {
   const { id } = useParams<RouteParams>();
   const [modal, setModal] = useContext(ModalContext);
-  const recipeService = new RecipeService();
   const recipe = recipeService.getRecipe(parseInt(id));
   const nutritions = recipeService.getRecipeNutrition(parseInt(id));
 
@@ -100,7 +104,6 @@ const RecipeDetail = () => {
   };
 
   const addToSavedRecipe = () => {
-    const storageService = new LocalStorageService();
     const success = storageService.saveArray(RECIPE_STORAGE_KEY, recipe, 'id');
 
     if (success) {
