@@ -27,7 +27,7 @@ const Login = ({ usersService, storageService }: props) => {
   } = useForm<FormData>();
   const btnRef = useRef<HTMLButtonElement | null>(null);
   const [loggedUser, setLoggedUser, logout]: [ClientUser | null, React.Dispatch<React.SetStateAction<ClientUser | null>>, Function] = useContext(AuthContext);
-  const [makeToast, makeToastPromise] = useContext(ToastContext) as ToastContextType;
+  const [makeToast, _, dismissToast] = useContext(ToastContext) as ToastContextType;
 
   if (loggedUser) {
     return <Redirect to="/" />;
@@ -37,6 +37,7 @@ const Login = ({ usersService, storageService }: props) => {
     makeToast!('Signing in...', "default");
     btnRef.current!.disabled = true;
     const user: User | boolean = await usersService.validate(email, password);
+    dismissToast();
     if (user) {
       makeToast!(`Welcome back, ${(user as User).username}`, "success");
       storageService.save(USER_STORAGE_KEY, (user as User).id);
