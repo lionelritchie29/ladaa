@@ -3,6 +3,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Layout from './components/_Layout';
 import AuthProvider from './contexts/AuthContext';
 import ModalProvider from './contexts/ModalContext';
+import ToastProvider from './contexts/ToastContext';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Home from './pages/Home';
@@ -20,30 +21,32 @@ export default function App() {
     <Router>
       <ScrollToTop />
       <AuthProvider usersService={usersService} storageService={storageService}>
-        <ModalProvider>
-          <Layout>
-            <Switch>
-              <Route path="/auth/login">
-                <Login usersService={usersService} storageService={storageService} />
-              </Route>
-              <Route path="/auth/register">
-                <Register usersService={usersService} />
-              </Route>
-              <Route path="/recipes/:id">
-                <RecipeDetail />
-              </Route>
-              <Route path="/saved-recipes">
-                <SavedRecipe />
-              </Route>
-              <Route path="/meal-plan">
-                <MealPlan />
-              </Route>
-              <Route path="/">
-                <Home />
-              </Route>
-            </Switch>
-          </Layout>
-        </ModalProvider>
+          <ToastProvider>
+            <ModalProvider>
+              <Layout>
+                <Switch>
+                  <Route path="/auth/login">
+                    <Login usersService={usersService} storageService={storageService} />
+                  </Route>
+                  <Route path="/auth/register">
+                    <Register usersService={usersService} />
+                  </Route>
+                  <Route path="/recipes/:id">
+                    <RecipeDetail />
+                  </Route>
+                  <Route path="/saved-recipes">
+                    <SavedRecipe />
+                  </Route>
+                  <Route path="/meal-plan">
+                    <MealPlan />
+                  </Route>
+                  <Route path="/">
+                    <Home />
+                  </Route>
+                </Switch>
+              </Layout>
+            </ModalProvider>
+          </ToastProvider>
       </AuthProvider>
     </Router>
   );
