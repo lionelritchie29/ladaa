@@ -191,18 +191,18 @@ const Navbar = () => {
               <If condition={loggedUser !== null}>
                 <Then>
                   <Link
-                      to="/saved-recipes"
-                      className="text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                    >
-                      Saved Recipes
-                    </Link>
-                    <Link
-                      to="/meal-plan"
-                      className="text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
-                    >
-                      Meal Plan
-                    </Link>
-              </Then>
+                    to="/saved-recipes"
+                    className="text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                  >
+                    Saved Recipes
+                  </Link>
+                  <Link
+                    to="/meal-plan"
+                    className="text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium"
+                  >
+                    Meal Plan
+                  </Link>
+                </Then>
                 <Else>
                   <Link
                     to="/auth/login"
@@ -237,12 +237,12 @@ const Navbar = () => {
                     </div>
                   </div>
                   <div className="mt-3 px-2 space-y-1">
-                    <a
-                      href="#"
+                    <button
+                      onClick={() => logout()}
                       className="block px-3 py-2 rounded-md text-base font-medium text-gray-100 hover:text-white hover:bg-green-700"
                     >
                       Sign Out
-                    </a>
+                    </button>
                   </div>
                 </div>
               </Then>

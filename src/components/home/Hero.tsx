@@ -28,7 +28,7 @@ const Hero = () => {
             className='w-72 md:mr-4 lg:mr-8 xl:mr-12'
             text='Find Recipe'
           />
-          <SecondaryButton onClickCallback={() => {}} className='w-72' text='My Saved Recipes' />
+          <SecondaryButton onClickCallback={() => {}} className='mt-3 md:mt-0 w-72' text='My Saved Recipes' />
         </div>
       </div>
     </section>

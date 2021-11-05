@@ -47,9 +47,9 @@ const Register = ({ usersService }: props) => {
     password,
     username,
   }) => {
-    const isExist = await usersService.checkExist(username, email);
+    const isExist = await usersService.checkExist(email);
     if (isExist) {
-      makeToast!('Oops.. username or email already exists', "error");
+      makeToast!('Oops.. email already exists', "error");
     } else {
       makeToast!('We are processing your request, please wait...', 'info');
       await usersService.add(username, email, password);
@@ -72,7 +72,7 @@ const Register = ({ usersService }: props) => {
               <div className="mt-6">
                 <form onSubmit={handleSubmit(onRegister)} className="space-y-6">
                   <div>
-                    <label className="block text-sm font-medium text-white">Username</label>
+                    <label className="block text-sm font-medium text-white">Full Name</label>
                     <div className="mt-1">
                       <input
                         {...register('username', {

@@ -16,9 +16,9 @@ export class UsersService extends BaseService {
     }`;
   }
 
-  async checkExist(username: string, email: string) {
+  async checkExist(email: string) {
     const result: AxiosResult<User[]> = await axios.get(this.apiUrl);
-    if (result.data.find((u) => u.username == username || u.email == email)) {
+    if (result.data.find((u) => u.email == email)) {
       return true;
     }
     return false;
