@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { USER_STORAGE_KEY } from '../../constant';
+import { AuthContext, ClientUser } from '../../contexts/AuthContext';
 import { User } from '../../models/user';
 import { UsersService } from '../../services/api/users-service';
 import { LocalStorageService } from '../../services/storage/LocalStorageService';
@@ -22,11 +23,18 @@ const Login = ({ usersService, storageService }: props) => {
     formState: { errors },
   } = useForm<FormData>();
 
+  const [loggedUser, setLoggedUser]: [ClientUser | null, React.Dispatch<React.SetStateAction<ClientUser | null>>] = useContext(AuthContext);
+
   const onLogin: SubmitHandler<FormData> = async ({ email, password }) => {
     const user: User | boolean = await usersService.validate(email, password);
     if (user) {
       alert('Success Login!');
       storageService.save(USER_STORAGE_KEY, (user as User).id);
+      setLoggedUser({
+        id: (user as User).id,
+        username: (user as User).username,
+        email: (user as User).email,
+      });
     } else {
       alert('User does not exist or wrong combination of username or password');
     }

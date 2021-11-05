@@ -55,4 +55,10 @@ export class UsersService extends BaseService {
     }
     return false;
   }
+
+  async get(id: string) {
+    const result: AxiosResult<User[]> = await axios.get(this.apiUrl);
+    const user = result.data.find(u => u.id === id);
+    return user || null;
+  }
 }
