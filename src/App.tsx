@@ -11,13 +11,16 @@ import MealPlan from './pages/MealPlan';
 import RecipeDetail from './pages/RecipeDetail';
 import SavedRecipe from './pages/SavedRecipe';
 import LocalRecipeService from './services/in-memory/recipe-service';
+import ApiRecipeService from './services/api/recipe-service';
 import { UsersService } from './services/api/users-service';
 import { LocalStorageService } from './services/storage/LocalStorageService';
+import SearchRecipe from './pages/SearchRecipe';
 
 export default function App() {
   const usersService = new UsersService();
   const storageService = new LocalStorageService();
   const localRecipeService = new LocalRecipeService();
+  const apiRecipeService = new ApiRecipeService();
 
   return (
     <Router>
@@ -48,8 +51,11 @@ export default function App() {
                 <Route path='/meal-plan'>
                   <MealPlan recipeService={localRecipeService} />
                 </Route>
+                <Route path='/search-recipes'>
+                  <SearchRecipe apiRecipeService={apiRecipeService} />
+                </Route>
                 <Route path='/'>
-                  <Home recipeService={localRecipeService} />
+                  <Home recipeService={localRecipeService} apiRecipeService={apiRecipeService} />
                 </Route>
               </Switch>
             </Layout>

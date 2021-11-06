@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { FormEvent, useEffect, useState } from 'react';
 import CuisineCard from '../components/home/CuisineCard';
 import Hero from '../components/home/Hero';
 import ContentSection from '../components/shared/ContentSection';
@@ -6,13 +6,19 @@ import Divider from '../components/shared/Divider';
 import RecipeCard from '../components/shared/RecipeCard';
 import { Recipe } from '../models/recipe';
 import RecipeService from '../services/in-memory/recipe-service';
+import ApiRecipeService from '../services/api/recipe-service';
+import { Else, If, Then } from 'react-if';
+import { Link } from 'react-router-dom';
 
 type props = {
   recipeService: RecipeService;
+  apiRecipeService: ApiRecipeService;
 };
 
-const Home = ({ recipeService }: props) => {
+const Home = ({ recipeService, apiRecipeService }: props) => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
+  const [searchRecipesResult, setSearchRecipesResult] = useState<Recipe[]>([]);
+  const [searchValue, setSearchValue] = useState<string>('');
 
   const fetchRecipes = async () => {
     const res = recipeService.getRecipes();
@@ -29,6 +35,14 @@ const Home = ({ recipeService }: props) => {
     { name: 'Chinese', image: '' },
     { name: 'Italian', image: '' },
   ];
+
+  const searchRecipes = async (e: FormEvent) => {
+    e.preventDefault();
+    const { results } = await apiRecipeService.searchByName(searchValue, 4);
+
+    setSearchRecipesResult(results);
+    setSearchValue('');
+  };
 
   return (
     <section>
@@ -54,7 +68,6 @@ const Home = ({ recipeService }: props) => {
 
         <div className='mt-8 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {recipes
-            .sort(() => Math.random() - 0.5)
             .filter((_, idx) => idx < 8)
             .map((recipe) => (
               <RecipeCard key={recipe.title} recipe={recipe} />
@@ -76,28 +89,48 @@ const Home = ({ recipeService }: props) => {
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 20 20'
                 fill='currentColor'
-                aria-hidden='true'>
+                aria-hidden='true'
+              >
                 <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z' />
                 <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z' />
               </svg>
             </div>
-            <input
-              type='text'
-              name='email'
-              id='email'
-              className='border border-gray-300 focus:ring-indigo-500 py-2 focus:border-indigo-500 block w-full pl-10 sm:text-sm rounded-md'
-              placeholder='Burger ...'
-            />
+            <form onSubmit={searchRecipes}>
+              <input
+                type='text'
+                name='search-recipe'
+                id='search-recipe'
+                className='border border-gray-300 focus:ring-indigo-500 py-2 focus:border-indigo-500 block w-full pl-10 sm:text-sm rounded-md'
+                placeholder='Burger ...'
+                value={searchValue}
+                onChange={(e) => setSearchValue(e.target.value)}
+              />
+            </form>
           </div>
         </div>
 
         <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          {recipes
-            .sort(() => Math.random() - 0.5)
-            .filter((_, idx) => idx < 4)
-            .map((recipe) => (
-              <RecipeCard key={recipe.title} recipe={recipe} />
-            ))}
+          <If condition={searchRecipesResult.length == 0}>
+            <Then>
+              {recipes
+                .filter((_, idx) => idx < 4)
+                .map((recipe) => (
+                  <RecipeCard key={recipe.title} recipe={recipe} />
+                ))}
+            </Then>
+            <Else>
+              {searchRecipesResult
+                .map((recipe) => (
+                  <RecipeCard key={recipe.title} recipe={recipe} />
+                ))}
+            </Else>
+          </If>
+        </div>
+
+        <div className='text-right mt-4'>
+          <Link className='text-blue-500 hover:underline btn' to='/search-recipes'>
+            View More...
+          </Link>
         </div>
       </ContentSection>
     </section>
