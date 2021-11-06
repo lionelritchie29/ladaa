@@ -1,4 +1,5 @@
 import React from 'react';
+import RecipeMealCard from './RecipeMealCard';
 
 const MealPlanTable = () => {
   return (
@@ -9,6 +10,11 @@ const MealPlanTable = () => {
             <table className='min-w-full divide-y divide-gray-200'>
               <thead className='bg-gray-50'>
                 <tr>
+                  <th
+                    scope='col'
+                    className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
+                    Type
+                  </th>
                   <th
                     scope='col'
                     className='px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider'>
@@ -48,27 +54,75 @@ const MealPlanTable = () => {
               </thead>
               <tbody className='bg-white divide-y divide-gray-200'>
                 <tr>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900'>
-                    A
+                  <td
+                    style={{
+                      textOrientation: 'sideways',
+                      writingMode: 'vertical-lr',
+                    }}
+                    className='text-center text-sm whitespace-nowrap font-medium text-gray-900'>
+                    Breakfast
                   </td>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                    A
+                  {[1, 2, 3, 4, 5, 6, 7].map((meal) => (
+                    <td className='px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900'>
+                      <RecipeMealCard />
+                    </td>
+                  ))}
+                </tr>
+                <tr className='bg-gray-100'>
+                  <td
+                    style={{
+                      textOrientation: 'sideways',
+                      writingMode: 'vertical-lr',
+                    }}
+                    className='text-center text-sm whitespace-nowrap font-medium text-gray-900'>
+                    Lunch
                   </td>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                    A
+                  {[1, 2, 3, 4, 5, 6, 7].map((meal) => (
+                    <td className='px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900'>
+                      <RecipeMealCard />
+                    </td>
+                  ))}
+                </tr>
+                <tr>
+                  <td
+                    style={{
+                      textOrientation: 'sideways',
+                      writingMode: 'vertical-lr',
+                    }}
+                    className='text-center text-sm whitespace-nowrap font-medium text-gray-900'>
+                    Dinner
                   </td>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                    A
+                  {[1, 2, 3, 4, 5, 6, 7].map((meal) => (
+                    <td className='px-3 py-2 whitespace-nowrap text-sm font-medium text-gray-900'>
+                      <RecipeMealCard />
+                    </td>
+                  ))}
+                </tr>
+                <tr className='bg-gray-100'>
+                  <td
+                    style={{
+                      textOrientation: 'sideways',
+                      writingMode: 'vertical-lr',
+                    }}
+                    className='text-center text-sm whitespace-nowrap font-medium text-gray-900'>
+                    Nutrient
                   </td>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                    A
-                  </td>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                    A
-                  </td>
-                  <td className='px-6 py-4 whitespace-nowrap text-sm text-gray-500'>
-                    A
-                  </td>
+                  {[1, 2, 3, 4, 5, 6, 7].map((meal) => (
+                    <td className='px-3 py-2 whitespace-nowrap text-sm text-gray-900'>
+                      <div>
+                        Calories: <span className='font-medium'>1400</span>
+                      </div>
+                      <div>
+                        Fat: <span className='font-medium'>100g</span>
+                      </div>
+                      <div>
+                        Protein: <span className='font-medium'>425g</span>
+                      </div>
+                      <div>
+                        Carbs: <span className='font-medium'>200g</span>
+                      </div>
+                    </td>
+                  ))}
                 </tr>
               </tbody>
             </table>

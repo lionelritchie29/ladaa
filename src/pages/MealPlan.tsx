@@ -6,22 +6,19 @@ import RecipeCard from '../components/shared/RecipeCard';
 import RecipeService from '../services/in-memory/recipe-service';
 import { If, Then } from 'react-if';
 import MealPlanTable from '../components/meal-plan/MealPlanTable';
+import { Tab } from '@headlessui/react';
+import MealPlanGenerator from '../components/meal-plan/MealPlanGenerator';
 
 type props = {
   recipeService: RecipeService;
 };
 
-const MealPlan = ({ recipeService }: props) => {
-  const [showPlan, setShowPlan] = useState(false);
-  const recipes = recipeService.getRecipes();
-  const timeframes = [{ name: 'Day' }, { name: 'Week' }];
-  const [selectedTimeframe, setSelectedTimeframe] = useState(
-    timeframes[0].name,
-  );
+function classNames(...classes: string[]) {
+  return classes.filter(Boolean).join(' ');
+}
 
-  const generatePlan = () => {
-    setShowPlan(true);
-  };
+const MealPlan = ({ recipeService }: props) => {
+  const tabs = ['Generate', 'My Meal Plan'];
 
   return (
     <ContentSection className='mt-12 mb-10'>
@@ -29,73 +26,41 @@ const MealPlan = ({ recipeService }: props) => {
         Meal Plan
       </h2>
 
-      <div className='flex mt-8'>
-        <div className='w-1/3'>
-          <div className='relative rounded-md shadow-sm'>
-            <label htmlFor='target-calories' className='font-semibold text-lg'>
-              Choose timeframe
-            </label>
-            <CustomListBox
-              items={timeframes}
-              setSelected={setSelectedTimeframe}
-            />
-          </div>
-
-          <div className='mt-6 relative rounded-md shadow-sm'>
-            <div className='absolute top-12 left-0 pl-3 pt-1 flex items-center pointer-events-none'>
-              <img
-                src='https://img.icons8.com/ios/100/000000/caloric-energy--v1.png'
-                className='w-6 h-6 object-cover'
-              />
-            </div>
-            <div>
-              <label
-                htmlFor='target-calories'
-                className='font-semibold text-lg'>
-                Target Calories
-              </label>
-              <input
-                type='number'
-                name='target-calories'
-                id='target-calories'
-                className='border border-gray-300 focus:ring-indigo-500 py-2 focus:border-indigo-500 block w-full pl-10 sm:text-sm rounded-md mt-4'
-                placeholder='Input Calories ...'
-              />
-            </div>
-          </div>
-
-          <div className='mt-6 relative rounded-md shadow-sm'>
-            <label htmlFor='target-calories' className='font-semibold text-lg'>
-              Choose diet type
-            </label>
-            <CustomRadioGroup />
-          </div>
-
-          <div className='mt-6 relative rounded-md shadow-sm'>
-            <button
-              onClick={generatePlan}
-              className='btn hover:bg-green-700 text-center w-full text-gray-100 text-sm bg-green-800 font-semibold py-2 rounded-lg'>
-              Generate Meal Plan
-            </button>
-          </div>
-
-          <If condition={showPlan}>
-            <Then>
-              <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-                {recipes
-                  .sort(() => Math.random() - 0.5)
-                  .filter((_, idx) => idx < 3)
-                  .map((recipe) => (
-                    <RecipeCard key={recipe.title} recipe={recipe} />
-                  ))}
-              </div>
-            </Then>
-          </If>
-        </div>
-
-        <div className='w-2/3 ml-8'>
-          <MealPlanTable />
-        </div>
+      <div className='w-full px-2 py-16 sm:px-0'>
+        <Tab.Group>
+          <Tab.List className='flex p-1 space-x-1 bg-green-700 rounded-lg'>
+            {tabs.map((tab) => (
+              <Tab
+                className={({ selected }) =>
+                  classNames(
+                    'w-full py-2.5 text-sm leading-5 font-medium text-white rounded-lg',
+                    'focus:outline-none bg-green-600 ',
+                    selected
+                      ? 'bg-white shadow'
+                      : 'text-gray-700 hover:bg-white/[0.12] hover:text-white',
+                  )
+                }>
+                {tab}
+              </Tab>
+            ))}
+          </Tab.List>
+          <Tab.Panels className='mt-2'>
+            <Tab.Panel
+              className={classNames(
+                'bg-white rounded-xl p-3',
+                'border border-gray-300',
+              )}>
+              <MealPlanGenerator recipeService={recipeService} />
+            </Tab.Panel>
+            <Tab.Panel
+              className={classNames(
+                'bg-white rounded-xl p-3',
+                'border border-gray-300',
+              )}>
+              <MealPlanTable />
+            </Tab.Panel>
+          </Tab.Panels>
+        </Tab.Group>
       </div>
     </ContentSection>
   );
