@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import dummyIngredientWidget from '../assets/images/ingredient-widget.png';
 import dummyEquipmentWidget from '../assets/images/equipment-widget.png';
@@ -11,6 +11,8 @@ import { ModalContext } from '../contexts/ModalContext';
 import { LocalStorageService } from '../services/storage/LocalStorageService';
 import { RECIPE_STORAGE_KEY } from '../constant';
 import dummyVideo from '../assets/videos/dummy-video.webm';
+import MealPlanForm from '../components/recipe-detail/MealPlanForm';
+import MealPlanService from '../services/api/meal-plan-service';
 
 type RouteParams = {
   id: string;
@@ -19,13 +21,19 @@ type RouteParams = {
 type props = {
   recipeService: RecipeService;
   storageService: LocalStorageService;
+  mealPlanService: MealPlanService;
 };
 
-const RecipeDetail = ({ recipeService, storageService }: props) => {
+const RecipeDetail = ({
+  recipeService,
+  storageService,
+  mealPlanService,
+}: props) => {
   const { id } = useParams<RouteParams>();
   const [modal, setModal] = useContext(ModalContext);
   const recipe = recipeService.getRecipe(parseInt(id));
   const nutritions = recipeService.getRecipeNutrition(parseInt(id));
+  const [startDate, setStartDate] = useState(new Date());
 
   const ratings: RecipeRatingModel[] = [
     {
@@ -170,6 +178,16 @@ const RecipeDetail = ({ recipeService, storageService }: props) => {
     });
   };
 
+  const addToMealPlan = () => {
+    setModal({
+      show: true,
+      title: `Add ${recipe.title} to your meal plan`,
+      content: (
+        <MealPlanForm mealPlanService={mealPlanService} recipe={recipe} />
+      ),
+    });
+  };
+
   return (
     <section>
       <ContentSection className='mt-6 lg:mt-9 md:flex'>
@@ -278,7 +296,7 @@ const RecipeDetail = ({ recipeService, storageService }: props) => {
 
       <ContentSection className='mt-9 mb-8'>
         <h2 className='text-2xl font-bold'>Premium Features</h2>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3 mt-3'>
+        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mt-3'>
           <button
             onClick={() => showIngredientModal()}
             className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
@@ -298,6 +316,11 @@ const RecipeDetail = ({ recipeService, storageService }: props) => {
             onClick={() => addToSavedRecipe()}
             className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             Add to Saved
+          </button>
+          <button
+            onClick={() => addToMealPlan()}
+            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+            Add to Meal Plan
           </button>
         </div>
       </ContentSection>

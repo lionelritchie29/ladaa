@@ -7,9 +7,9 @@ export class BaseService {
     this.APP_SECRET = import.meta.env.VITE_APP_SECRET as string;
   }
 
-  generateSpoonacularUrl(path: string) {
+  generateSpoonacularUrl(path: string, query: string = '') {
     return `${import.meta.env.VITE_SPOONACULAR_API_URL}${path}?apiKey=${
       import.meta.env.VITE_SPOONACULAR_API_KEY
-    }`;
+    }${query}`;
   }
 }
