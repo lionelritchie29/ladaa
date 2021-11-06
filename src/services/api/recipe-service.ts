@@ -1,17 +1,31 @@
-import { Recipe } from '../../models/recipe';
+import axios from 'axios';
+import { AxiosResult } from '../../models/axios-result';
+import { SearchRecipeResult } from '../../models/search-recipe-result';
+import { BaseService } from './base-service';
 
-export default class RecipeService {
-  private API_KEY = '8c45e5cc1bd3429e889d99bb19382990';
-  private BASE_URL = 'https://api.jsonbin.io/v3/b/61791d63aa02be1d445f7f90';
+export default class RecipeService extends BaseService {
+  constructor() {
+    super();
+  }
 
-  async getRecipes(): Promise<Recipe[]> {
-    return await fetch(`${this.BASE_URL}/latest`, {
-      headers: {
-        'X-Master-Key': this.API_KEY,
-        'X-Bin-Meta': 'false',
-      },
-    })
-      .then((res) => res.json())
-      .then((res) => res);
+  async searchByName(name: string, limit: number): Promise<SearchRecipeResult> {
+    const result: AxiosResult<SearchRecipeResult> = await axios.get(
+      this.generateSpoonacularUrl(
+        `/recipes/complexSearch?query=${name}&number=${limit}&addRecipeInformation=true&`,
+      ),
+    );
+    return result.data;
+  }
+
+  async searchByCuisine(
+    cuisine: string,
+    limit: number,
+  ): Promise<SearchRecipeResult> {
+    const result: AxiosResult<SearchRecipeResult> = await axios.get(
+      this.generateSpoonacularUrl(
+        `/recipes/complexSearch?cuisine=${cuisine}&number=${limit}&addRecipeInformation=true&`,
+      ),
+    );
+    return result.data;
   }
 }
