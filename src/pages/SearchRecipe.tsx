@@ -67,7 +67,7 @@ const SearchRecipe = ({ apiRecipeService }: props) => {
 
     if (!queryName && !queryCuisine) {
       dismissToast();
-      makeToast('You must type something in search box', 'error');
+      makeToast('You must type something in search box', 'info');
     }
 
     if (queryName !== '') {

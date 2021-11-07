@@ -13,6 +13,8 @@ import { RECIPE_STORAGE_KEY } from '../constant';
 import dummyVideo from '../assets/videos/dummy-video.webm';
 import MealPlanForm from '../components/recipe-detail/MealPlanForm';
 import MealPlanService from '../services/api/meal-plan-service';
+import { AuthContext } from '../contexts/AuthContext';
+import { If, Then } from 'react-if';
 
 type RouteParams = {
   id: string;
@@ -33,7 +35,7 @@ const RecipeDetail = ({
   const [modal, setModal] = useContext(ModalContext);
   const recipe = recipeService.getRecipe(parseInt(id));
   const nutritions = recipeService.getRecipeNutrition(parseInt(id));
-  const [startDate, setStartDate] = useState(new Date());
+  const [loggedUser, setLoggedUser] = useContext(AuthContext);
 
   const ratings: RecipeRatingModel[] = [
     {
@@ -204,39 +206,47 @@ const RecipeDetail = ({
             className='text-sm mt-2 text-justify'
             dangerouslySetInnerHTML={{ __html: recipe.summary }}></p>
 
-          <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
-            <SecondaryButton
-              onClickCallback={showVideo}
-              className='lg:w-1/2 lg:mr-4 mr-1'
-              text='View Video Tutor'
-            />
-            <SecondaryButton
-              onClickCallback={addVideo}
-              className='lg:w-1/2 mt-0 md:mt-3 lg:mt-0'
-              text='Add Video Tutor'
-            />
-          </div>
+          <If condition={loggedUser !== null}>
+            <Then>
+              <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
+                <SecondaryButton
+                  onClickCallback={showVideo}
+                  className='lg:w-1/2 lg:mr-4 mr-1'
+                  text='View Video Tutor'
+                />
+                <SecondaryButton
+                  onClickCallback={addVideo}
+                  className='lg:w-1/2 mt-0 md:mt-3 lg:mt-0'
+                  text='Add Video Tutor'
+                />
+              </div>
+            </Then>
+          </If>
         </div>
       </ContentSection>
 
       <ContentSection className='mt-6'>
-        <h2 className='font-semibold text-lg mb-2'>Add Rating</h2>
-        <form>
-          <textarea
-            className='border shadow-sm border-gray-100 bg-gray-100 w-full rounded p-2'
-            rows={5}></textarea>
+        <If condition={loggedUser !== null}>
+          <Then>
+            <h2 className='font-semibold text-lg mb-2'>Add Rating</h2>
+            <form>
+              <textarea
+                className='border shadow-sm border-gray-100 bg-gray-100 w-full rounded p-2'
+                rows={5}></textarea>
 
-          <div className='text-right mt-1'>
-            {/* <button className='text-white btn shadow bg-green-600 px-5 font-semibold py-2 rounded-full'>
+              <div className='text-right mt-1'>
+                {/* <button className='text-white btn shadow bg-green-600 px-5 font-semibold py-2 rounded-full'>
               Add Rating
             </button> */}
-            <SecondaryButton
-              onClickCallback={() => {}}
-              text='Add Rating'
-              className='px-10'
-            />
-          </div>
-        </form>
+                <SecondaryButton
+                  onClickCallback={() => {}}
+                  text='Add Rating'
+                  className='px-10'
+                />
+              </div>
+            </form>
+          </Then>
+        </If>
 
         <h2 className='font-semibold text-lg mt-3'>Ratings from other users</h2>
         <div className='grid grid-cols-1 gap-3'>
@@ -295,33 +305,38 @@ const RecipeDetail = ({
       </ContentSection>
 
       <ContentSection className='mt-9 mb-8'>
-        <h2 className='text-2xl font-bold'>Premium Features</h2>
+        <h2 className='text-2xl font-bold'>Features</h2>
         <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mt-3'>
-          <button
-            onClick={() => showIngredientModal()}
-            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
-            See Ingredients
-          </button>
           <button
             onClick={() => showInstructionsModal()}
             className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
             See Instructions
           </button>
-          <button
-            onClick={() => showEquipmentModal()}
-            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
-            See Equipments
-          </button>
-          <button
-            onClick={() => addToSavedRecipe()}
-            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
-            Add to Saved
-          </button>
-          <button
-            onClick={() => addToMealPlan()}
-            className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
-            Add to Meal Plan
-          </button>
+
+          <If condition={loggedUser !== null}>
+            <Then>
+              <button
+                onClick={() => showIngredientModal()}
+                className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+                See Ingredients
+              </button>
+              <button
+                onClick={() => showEquipmentModal()}
+                className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+                See Equipments
+              </button>
+              <button
+                onClick={() => addToSavedRecipe()}
+                className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+                Add to Saved
+              </button>
+              <button
+                onClick={() => addToMealPlan()}
+                className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+                Add to Meal Plan
+              </button>
+            </Then>
+          </If>
         </div>
       </ContentSection>
     </section>
