@@ -30,10 +30,26 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
   }, []);
 
   const cuisines = [
-    { name: 'Indonesia', image: '' },
-    { name: 'Western', image: '' },
-    { name: 'Chinese', image: '' },
-    { name: 'Italian', image: '' },
+    {
+      name: 'American',
+      image:
+        'https://images.unsplash.com/photo-1602030638412-bb8dcc0bc8b0?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+    },
+    {
+      name: 'Chinese',
+      image:
+        'https://images.unsplash.com/photo-1563245372-f21724e3856d?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+    },
+    {
+      name: 'Japanese',
+      image:
+        'https://images.unsplash.com/photo-1617196035154-1e7e6e28b0db?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+    },
+    {
+      name: 'Korean',
+      image:
+        'https://images.unsplash.com/photo-1580651315530-69c8e0026377?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2.1&auto=format&fit=crop&w=200&q=80',
+    },
   ];
 
   const searchRecipes = async (e: FormEvent) => {
@@ -56,7 +72,11 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
 
         <div className='mt-8 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
           {cuisines.map((cuisine) => (
-            <CuisineCard key={cuisine.name} name={cuisine.name} />
+            <CuisineCard
+              key={cuisine.name}
+              name={cuisine.name}
+              image={cuisine.image}
+            />
           ))}
         </div>
       </ContentSection>
@@ -89,8 +109,7 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
                 xmlns='http://www.w3.org/2000/svg'
                 viewBox='0 0 20 20'
                 fill='currentColor'
-                aria-hidden='true'
-              >
+                aria-hidden='true'>
                 <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z' />
                 <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z' />
               </svg>
@@ -119,16 +138,17 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
                 ))}
             </Then>
             <Else>
-              {searchRecipesResult
-                .map((recipe) => (
-                  <RecipeCard key={recipe.title} recipe={recipe} />
-                ))}
+              {searchRecipesResult.map((recipe) => (
+                <RecipeCard key={recipe.title} recipe={recipe} />
+              ))}
             </Else>
           </If>
         </div>
 
         <div className='text-right mt-4'>
-          <Link className='text-blue-500 hover:underline btn' to='/search-recipes'>
+          <Link
+            className='text-blue-500 hover:underline btn'
+            to='/search-recipes'>
             View More...
           </Link>
         </div>

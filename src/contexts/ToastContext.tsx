@@ -10,7 +10,7 @@ export type ToastContextType = [
   makeToastPromise: (
     promiseFunc: Promise<any>,
     message: ToastPromiseMessage,
-  ) => void,
+  ) => Promise<any>,
   dismissToast: () => void,
 ];
 

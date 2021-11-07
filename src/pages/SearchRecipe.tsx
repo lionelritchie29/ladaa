@@ -1,9 +1,11 @@
-import React, { FormEvent, useEffect, useState } from 'react';
+import React, { FormEvent, useContext, useEffect, useState } from 'react';
 import { Else, If, Then } from 'react-if';
 import { useLocation } from 'react-router';
 import ContentSection from '../components/shared/ContentSection';
 import RecipeCard from '../components/shared/RecipeCard';
+import { ToastContext, ToastContextType } from '../contexts/ToastContext';
 import { Recipe } from '../models/recipe';
+import { SearchRecipeResult } from '../models/search-recipe-result';
 import ApiRecipeService from '../services/api/recipe-service';
 
 type props = {
@@ -18,17 +20,39 @@ const useQuery = () => {
 const SearchRecipe = ({ apiRecipeService }: props) => {
   const [searchRecipesResult, setSearchRecipesResult] = useState<Recipe[]>([]);
   const [searchValue, setSearchValue] = useState<string>('');
+  const [makeToast, makeToastPromise, dismissToast] = useContext(
+    ToastContext,
+  ) as ToastContextType;
+  const [currentSearch, setCurrentSearch] = useState('');
 
   let query = useQuery();
 
   const searchByName = async (name: string) => {
-    const { results } = await apiRecipeService.searchByName(name, 8);
+    dismissToast();
+    const { results } = (await makeToastPromise(
+      apiRecipeService.searchByName(name, 8),
+      {
+        success: 'Here you go!',
+        error: 'Ups, something is wrong when searching for it',
+        pending: 'Searching...',
+      },
+    )) as SearchRecipeResult;
     setSearchRecipesResult(results);
+    setCurrentSearch(`${name} recipes`);
   };
 
   const searchByCuisine = async (cuisine: string) => {
-    const { results } = await apiRecipeService.searchByCuisine(cuisine, 8);
+    dismissToast();
+    const { results } = await makeToastPromise(
+      apiRecipeService.searchByCuisine(cuisine, 8),
+      {
+        success: 'Here you go!',
+        error: 'Ups, something is wrong when retrieving the recipes',
+        pending: `Getting recipes for ${cuisine} cuisine`,
+      },
+    );
     setSearchRecipesResult(results);
+    setCurrentSearch(`${cuisine} Cuisine`);
   };
 
   const searchRecipes = async (e: FormEvent) => {
@@ -40,13 +64,18 @@ const SearchRecipe = ({ apiRecipeService }: props) => {
   useEffect(() => {
     let queryName = query.get('name') || '';
     let queryCuisine = query.get('cuisine') || '';
-  
+
+    if (!queryName && !queryCuisine) {
+      dismissToast();
+      makeToast('You must type something in search box', 'error');
+    }
+
     if (queryName !== '') {
       searchByName(queryName || '');
     } else if (queryCuisine !== '') {
       searchByCuisine(queryCuisine || '');
     }
-  }, [])
+  }, []);
 
   return (
     <ContentSection className='mt-12 mb-16'>
@@ -62,8 +91,7 @@ const SearchRecipe = ({ apiRecipeService }: props) => {
               xmlns='http://www.w3.org/2000/svg'
               viewBox='0 0 20 20'
               fill='currentColor'
-              aria-hidden='true'
-            >
+              aria-hidden='true'>
               <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z' />
               <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z' />
             </svg>
@@ -91,7 +119,10 @@ const SearchRecipe = ({ apiRecipeService }: props) => {
           </div>
         </Then>
         <Else>
-          <div className='mt-8 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+          <p className='mt-8'>
+            Result for <b>{currentSearch}</b>
+          </p>
+          <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
             {searchRecipesResult.map((recipe, idx) => (
               <RecipeCard key={`${recipe.title}-${idx}`} recipe={recipe} />
             ))}

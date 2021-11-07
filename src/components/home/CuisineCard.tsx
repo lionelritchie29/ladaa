@@ -4,11 +4,12 @@ import dummyCuisine from '../../assets/images/cuisines/dummy-cuisine.jpg';
 
 type props = {
   name: string;
+  image: string;
 };
 
-const CuisineCard = ({ name }: props) => {
+const CuisineCard = ({ name, image }: props) => {
   const bg = {
-    backgroundImage: `url(${dummyCuisine})`,
+    backgroundImage: `url(${image})`,
     backgroundSize: 'cover',
     backgroundPosition: 'center',
     backgroundRepeat: 'no-repeat',
