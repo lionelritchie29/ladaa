@@ -10,9 +10,9 @@ type props = {
 const RecipeCard = ({ recipe, imageSrc = '' }: props) => {
   return (
     <div className='shadow border border-gray-300 rounded overflow-hidden text-gray-600'>
-      <div>
+      <div className='w-full object-cover'>
         <img
-          className='w-100'
+          className='w-full object-cover'
           height='100'
           src={imageSrc || recipe.image}
           alt={`Image of ${recipe.title}`}

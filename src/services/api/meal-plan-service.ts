@@ -13,6 +13,43 @@ export default class MealPlanService extends BaseService {
     super();
   }
 
+  public async addToMealPlanWhole(user: User, date: Date, recipes: Recipe[]) {
+    const { username, hash } = user.spoonacularUser;
+    const slots = [MealSlot.BREAKFAST, MealSlot.LUNCH, MealSlot.DINNER];
+    const payload: any = [];
+
+    recipes.forEach((recipe, idx) => {
+      const { id, title, image, servings } = recipe;
+      payload.push({
+        date: getUnixTime(date),
+        slot: slots[idx],
+        position: 0,
+        type: 'RECIPE',
+        value: {
+          id,
+          title,
+          image,
+          servings,
+        },
+      });
+    });
+
+    const res: AxiosResult<any> = await axios.post(
+      this.generateSpoonacularUrl(
+        `/mealplanner/${username}/items`,
+        `&username=${username}&hash=${hash}`,
+      ),
+      payload,
+    );
+
+    if (
+      res.status.toString().startsWith('4') ||
+      res.status.toString().startsWith('5')
+    ) {
+      throw new Error('Failed when adding meal plan');
+    }
+  }
+
   public async addToMealPlan(
     user: User,
     date: Date,

@@ -1,9 +1,10 @@
 import React, { useContext, useState } from 'react';
+import ReactDatePicker from 'react-datepicker';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { If, Then } from 'react-if';
+import { AuthContext } from '../../contexts/AuthContext';
 import { ToastContext, ToastContextType } from '../../contexts/ToastContext';
 import { MealPlan } from '../../models/meal-plan';
-import { Recipe } from '../../models/recipe';
 import MealPlanService from '../../services/api/meal-plan-service';
 import RecipeService from '../../services/in-memory/recipe-service';
 import RecipeCard from '../shared/RecipeCard';
@@ -19,6 +20,8 @@ type FormData = {
 };
 
 const MealPlanGenerator = ({ recipeService, mealPlanService }: props) => {
+  const [startPlanDate, setStartPlanDate] = useState(new Date());
+
   const [showPlan, setShowPlan] = useState(false);
   const [plan, setPlan] = useState<MealPlan>({ meals: [] });
   const types = ['Breakfast', 'Lunch', 'Dinner'];
@@ -29,14 +32,18 @@ const MealPlanGenerator = ({ recipeService, mealPlanService }: props) => {
     reset,
     formState: { errors },
   } = useForm<FormData>();
+
   const [makeToast, makeToastPromise, dismissToast] = useContext(
     ToastContext,
   ) as ToastContextType;
+
+  const [loggedUser, setLoggedUser] = useContext(AuthContext);
 
   const generatePlan: SubmitHandler<FormData> = async ({
     targetCal,
     excludeItem,
   }) => {
+    reset();
     dismissToast();
     const excludeds = excludeItem.split('\n').join(',');
     const mp = (await makeToastPromise(
@@ -50,6 +57,31 @@ const MealPlanGenerator = ({ recipeService, mealPlanService }: props) => {
 
     setPlan(mp);
     setShowPlan(true);
+  };
+
+  const addToMealPlan = async (e: any) => {
+    e.preventDefault();
+    dismissToast();
+
+    const recipes = plan.meals.map((recipe) => ({
+      ...recipe,
+      image: `https://spoonacular.com/recipeImages/${recipe.id}-556x370.${recipe.imageType}`,
+    }));
+
+    if (loggedUser !== null) {
+      await makeToastPromise(
+        mealPlanService.addToMealPlanWhole(loggedUser, startPlanDate, recipes),
+        {
+          success: 'The recipes has been succesfully added to your meal plan!',
+          pending: 'Adding to your meal plan, please wait...',
+          error: 'Error when adding meal plan',
+        },
+      );
+      setPlan({ meals: [] });
+      setShowPlan(false);
+    } else {
+      makeToast('Not authorized', 'error');
+    }
   };
 
   return (
@@ -99,20 +131,43 @@ const MealPlanGenerator = ({ recipeService, mealPlanService }: props) => {
 
       <If condition={showPlan}>
         <Then>
-          <div className='mt-8 text-center text-lg'>Here are the results!</div>
-          <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
-            {plan.meals.map((recipe, idx) => (
-              <div key={recipe.id}>
-                <div className='text-center font-semibold'>
-                  {types[idx] || ''}
+          <div className='mt-8  border border-gray-200 p-4 rounded-md'>
+            {/* <div className='text-center text-lg'>Here are the results!</div> */}
+            <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3'>
+              {plan.meals.map((recipe, idx) => (
+                <div key={recipe.id}>
+                  <div className='text-center font-semibold'>
+                    {types[idx] || ''}
+                  </div>
+                  <RecipeCard
+                    recipe={recipe}
+                    imageSrc={`https://spoonacular.com/recipeImages/${recipe.id}-556x370.${recipe.imageType}`}
+                  />
                 </div>
-                <RecipeCard
-                  recipe={recipe}
-                  imageSrc={`https://spoonacular.com/recipeImages/${recipe.id}-556x370.${recipe.imageType}`}
-                />
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
+
+          <form className='mt-4 border border-gray-200 p-4 rounded-md'>
+            <h2 className='font-semibold text-lg'>Add to Meal Plan</h2>
+            <div className='w-full mt-4'>
+              <label>For When: </label>
+              <ReactDatePicker
+                className='sm:text-sm w-full rounded border border-gray-300 px-3 py-2'
+                selected={startPlanDate}
+                onChange={(date: Date) => setStartPlanDate(date)}
+              />
+            </div>
+
+            <div className='text-right mt-2'>
+              <button
+                onClick={addToMealPlan}
+                className='text-white bg-green-600 hover:bg-green-700 btn px-8 rounded-md'
+                type='submit'>
+                Add
+              </button>
+            </div>
+          </form>
         </Then>
       </If>
     </form>
