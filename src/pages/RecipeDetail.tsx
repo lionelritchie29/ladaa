@@ -206,6 +206,13 @@ const RecipeDetail = ({
             className='text-sm mt-2 text-justify'
             dangerouslySetInnerHTML={{ __html: recipe.summary }}></p>
 
+          <p className='text-sm mt-4 text-justify'>
+            This <span className='font-medium'>{recipe.title}</span> is quite
+            salty and quite sweet, it also has a little bit of sourness and a
+            little bit bitter, but it is pretty savory and spicy. It is suitable
+            for people who likes spicy food.
+          </p>
+
           <If condition={loggedUser !== null}>
             <Then>
               <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
