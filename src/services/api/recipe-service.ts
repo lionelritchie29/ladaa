@@ -11,7 +11,7 @@ export default class RecipeService extends BaseService {
   async searchByName(name: string, limit: number): Promise<SearchRecipeResult> {
     const result: AxiosResult<SearchRecipeResult> = await axios.get(
       this.generateSpoonacularUrl(
-        `/recipes/complexSearch?query=${name}&number=${limit}&addRecipeInformation=true&`,
+        '/recipes/complexSearch', `&query=${name}&number=${limit}&addRecipeInformation=true`,
       ),
     );
     return result.data;
@@ -23,7 +23,7 @@ export default class RecipeService extends BaseService {
   ): Promise<SearchRecipeResult> {
     const result: AxiosResult<SearchRecipeResult> = await axios.get(
       this.generateSpoonacularUrl(
-        `/recipes/complexSearch?cuisine=${cuisine}&number=${limit}&addRecipeInformation=true&`,
+        '/recipes/complexSearch', `&cuisine=${cuisine}&number=${limit}&addRecipeInformation=true`,
       ),
     );
     return result.data;

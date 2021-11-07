@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import dummyCuisine from '../../assets/images/cuisines/dummy-cuisine.jpg';
 
 type props = {
@@ -18,8 +19,8 @@ const CuisineCard = ({ name }: props) => {
   };
 
   return (
-    <a
-      href='#'
+    <Link
+      to={`/search-recipes?cuisine=${name}`}
       style={bg}
       className='h-24 md:h-36 xl:h-40 rounded-lg relative overflow-hidden'>
       <div
@@ -27,7 +28,7 @@ const CuisineCard = ({ name }: props) => {
         className='absolute text-gray-100 top-0 left-0 h-full w-full flex items-center justify-center'>
         <span className='font-semibold'>{name}</span>
       </div>
-    </a>
+    </Link>
   );
 };
 
