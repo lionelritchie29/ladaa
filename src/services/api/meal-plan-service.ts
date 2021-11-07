@@ -1,10 +1,11 @@
 import axios from 'axios';
-import { getUnixTime } from 'date-fns';
+import { format, getUnixTime, startOfWeek } from 'date-fns';
 import { MealSlot } from '../../models/enum/meal-slot';
 import { User } from '../../models/user';
 import { BaseService } from './base-service';
 import { Recipe } from '../../models/recipe';
 import { AxiosResult } from '../../models/axios-result';
+import { MealPlanWeek } from '../../models/MealPlanWeek';
 
 export default class MealPlanService extends BaseService {
   constructor() {
@@ -46,5 +47,23 @@ export default class MealPlanService extends BaseService {
     ) {
       throw new Error('Failed when adding meal plan');
     }
+  }
+
+  public async getMealPlanWeek(user: User, date: Date): Promise<MealPlanWeek> {
+    const { username, hash } = user.spoonacularUser;
+    const startDate = format(
+      startOfWeek(date, { weekStartsOn: 1 }),
+      'yyyy-MM-dd',
+    );
+
+    const result: AxiosResult<MealPlanWeek> = await axios.get(
+      this.generateSpoonacularUrl(
+        `/mealplanner/${username}/week/${startDate}`,
+        `&hash=${hash}`,
+      ),
+    );
+
+    console.log(result);
+    return result.data;
   }
 }

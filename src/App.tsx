@@ -52,7 +52,10 @@ export default function App() {
                   <SavedRecipe />
                 </Route>
                 <Route path='/meal-plan'>
-                  <MealPlan recipeService={localRecipeService} />
+                  <MealPlan
+                    recipeService={localRecipeService}
+                    mealPlanService={mealPlanService}
+                  />
                 </Route>
                 <Route path='/search-recipes'>
                   <SearchRecipe apiRecipeService={apiRecipeService} />

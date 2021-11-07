@@ -8,16 +8,18 @@ import { If, Then } from 'react-if';
 import MealPlanTable from '../components/meal-plan/MealPlanTable';
 import { Tab } from '@headlessui/react';
 import MealPlanGenerator from '../components/meal-plan/MealPlanGenerator';
+import MealPlanService from '../services/api/meal-plan-service';
 
 type props = {
   recipeService: RecipeService;
+  mealPlanService: MealPlanService;
 };
 
 function classNames(...classes: string[]) {
   return classes.filter(Boolean).join(' ');
 }
 
-const MealPlan = ({ recipeService }: props) => {
+const MealPlan = ({ recipeService, mealPlanService }: props) => {
   const tabs = ['Generate', 'My Meal Plan'];
 
   return (
@@ -57,7 +59,7 @@ const MealPlan = ({ recipeService }: props) => {
                 'bg-white rounded-xl p-3',
                 'border border-gray-300',
               )}>
-              <MealPlanTable />
+              <MealPlanTable mealPlanService={mealPlanService} />
             </Tab.Panel>
           </Tab.Panels>
         </Tab.Group>

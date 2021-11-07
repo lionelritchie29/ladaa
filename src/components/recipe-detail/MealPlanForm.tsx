@@ -37,7 +37,6 @@ const MealPlanForm = ({ mealPlanService, recipe }: props) => {
     if (loggedUser === null) {
       makeToast('You must log in to be able to use this feature!', 'error');
     } else {
-      console.log({ loggedUser, date, slot, recipe });
       await makeToastPromise(
         mealPlanService.addToMealPlan(loggedUser, date, slot, recipe),
         {
