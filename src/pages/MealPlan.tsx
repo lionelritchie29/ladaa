@@ -52,7 +52,10 @@ const MealPlan = ({ recipeService, mealPlanService }: props) => {
                 'bg-white rounded-xl p-3',
                 'border border-gray-300',
               )}>
-              <MealPlanGenerator recipeService={recipeService} />
+              <MealPlanGenerator
+                recipeService={recipeService}
+                mealPlanService={mealPlanService}
+              />
             </Tab.Panel>
             <Tab.Panel
               className={classNames(

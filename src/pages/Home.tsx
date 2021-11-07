@@ -90,7 +90,7 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
           {recipes
             .filter((_, idx) => idx < 8)
             .map((recipe) => (
-              <RecipeCard key={recipe.title} recipe={recipe} />
+              <RecipeCard key={recipe.title} recipe={recipe} imageSrc='' />
             ))}
         </div>
       </ContentSection>
@@ -134,12 +134,12 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
               {recipes
                 .filter((_, idx) => idx < 4)
                 .map((recipe) => (
-                  <RecipeCard key={recipe.title} recipe={recipe} />
+                  <RecipeCard key={recipe.title} recipe={recipe} imageSrc='' />
                 ))}
             </Then>
             <Else>
               {searchRecipesResult.map((recipe) => (
-                <RecipeCard key={recipe.title} recipe={recipe} />
+                <RecipeCard key={recipe.title} recipe={recipe} imageSrc='' />
               ))}
             </Else>
           </If>

@@ -124,7 +124,11 @@ const SearchRecipe = ({ apiRecipeService }: props) => {
           </p>
           <div className='grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
             {searchRecipesResult.map((recipe, idx) => (
-              <RecipeCard key={`${recipe.title}-${idx}`} recipe={recipe} />
+              <RecipeCard
+                key={`${recipe.title}-${idx}`}
+                recipe={recipe}
+                imageSrc=''
+              />
             ))}
           </div>
         </Else>

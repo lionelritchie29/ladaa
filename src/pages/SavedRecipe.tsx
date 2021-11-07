@@ -28,7 +28,7 @@ const SavedRecipe = () => {
           .sort(() => Math.random() - 0.5)
           .filter((_, idx) => idx < 8)
           .map((recipe) => (
-            <RecipeCard key={recipe.title} recipe={recipe} />
+            <RecipeCard key={recipe.title} recipe={recipe} imageSrc='' />
           ))}
       </div>
     </ContentSection>

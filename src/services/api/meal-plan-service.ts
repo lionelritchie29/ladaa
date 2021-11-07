@@ -6,6 +6,7 @@ import { BaseService } from './base-service';
 import { Recipe } from '../../models/recipe';
 import { AxiosResult } from '../../models/axios-result';
 import { MealPlanWeek } from '../../models/MealPlanWeek';
+import { MealPlan } from '../../models/meal-plan';
 
 export default class MealPlanService extends BaseService {
   constructor() {
@@ -63,7 +64,36 @@ export default class MealPlanService extends BaseService {
       ),
     );
 
-    console.log(result);
+    if (
+      result.status.toString().startsWith('4') ||
+      result.status.toString().startsWith('5')
+    ) {
+      throw new Error('Failed when getting your meal plan');
+    }
+
+    return result.data;
+  }
+
+  public async generateMealPlan(
+    targetCal: number,
+    excludeds: string,
+  ): Promise<MealPlan> {
+    const result: AxiosResult<MealPlan> = await axios.get(
+      this.generateSpoonacularUrl(
+        '/mealplanner/generate',
+        `&timeFrame=day&targetCalories=${targetCal}${
+          excludeds.length > 0 ? `&exclude=${excludeds}` : ''
+        }`,
+      ),
+    );
+
+    if (
+      result.status.toString().startsWith('4') ||
+      result.status.toString().startsWith('5')
+    ) {
+      throw new Error('Failed when generating meal plan');
+    }
+
     return result.data;
   }
 }

@@ -4,16 +4,17 @@ import { Link } from 'react-router-dom';
 
 type props = {
   recipe: Recipe;
+  imageSrc: string;
 };
 
-const RecipeCard = ({ recipe }: props) => {
+const RecipeCard = ({ recipe, imageSrc = '' }: props) => {
   return (
     <div className='shadow border border-gray-300 rounded overflow-hidden text-gray-600'>
       <div>
         <img
           className='w-100'
           height='100'
-          src={recipe.image}
+          src={imageSrc || recipe.image}
           alt={`Image of ${recipe.title}`}
         />
       </div>
