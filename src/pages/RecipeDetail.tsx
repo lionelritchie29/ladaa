@@ -210,7 +210,8 @@ const RecipeDetail = ({
     });
   };
 
-  if (!recipe || !nutritions) return null;
+  if (!recipe || !nutritions)
+    return <section className='min-h-screen'></section>;
 
   return (
     <section>
