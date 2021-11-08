@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import dummyIngredientWidget from '../assets/images/ingredient-widget.png';
 import dummyEquipmentWidget from '../assets/images/equipment-widget.png';
@@ -6,7 +6,6 @@ import ContentSection from '../components/shared/ContentSection';
 import SecondaryButton from '../components/shared/SecondaryButton';
 import RecipeRating from '../components/recipe-detail/RatingCard';
 import { RecipeRating as RecipeRatingModel } from '../models/recipe-rating';
-import RecipeService from '../services/in-memory/recipe-service';
 import { ModalContext } from '../contexts/ModalContext';
 import { LocalStorageService } from '../services/storage/LocalStorageService';
 import { RECIPE_STORAGE_KEY } from '../constant';
@@ -15,27 +14,48 @@ import MealPlanForm from '../components/recipe-detail/MealPlanForm';
 import MealPlanService from '../services/api/meal-plan-service';
 import { AuthContext } from '../contexts/AuthContext';
 import { If, Then } from 'react-if';
+import { Recipe } from '../models/recipe';
+import LocalRecipeService from '../services/in-memory/recipe-service';
+import RecipeService from '../services/api/recipe-service';
+import { NutritionWrapper } from '../models/nutrition-wrapper';
 
 type RouteParams = {
   id: string;
 };
 
 type props = {
-  recipeService: RecipeService;
+  localRecipeService: LocalRecipeService;
   storageService: LocalStorageService;
   mealPlanService: MealPlanService;
+  recipeService: RecipeService;
 };
 
 const RecipeDetail = ({
-  recipeService,
+  localRecipeService,
   storageService,
   mealPlanService,
+  recipeService,
 }: props) => {
   const { id } = useParams<RouteParams>();
   const [modal, setModal] = useContext(ModalContext);
-  const recipe = recipeService.getRecipe(parseInt(id));
-  const nutritions = recipeService.getRecipeNutrition(parseInt(id));
+  const [recipe, setRecipe] = useState<Recipe | null>(null);
+  const [nutritions, setNutritions] = useState<NutritionWrapper | null>(null);
   const [loggedUser, setLoggedUser] = useContext(AuthContext);
+
+  useEffect(() => {
+    fetchRecipe();
+  }, []);
+
+  const fetchRecipe = async () => {
+    const dummyRecipe = localRecipeService.getRecipe(parseInt(id));
+    if (dummyRecipe) {
+      setRecipe(dummyRecipe);
+      setNutritions(localRecipeService.getRecipeNutrition(parseInt(id)));
+    } else {
+      setRecipe(await recipeService.get(parseInt(id)));
+      setNutritions(await recipeService.getNutrition(parseInt(id)));
+    }
+  };
 
   const ratings: RecipeRatingModel[] = [
     {
@@ -80,7 +100,7 @@ const RecipeDetail = ({
       title: 'Recipe Instructions',
       content: (
         <>
-          <h3 className='font-semibold mb'>How to make {recipe.title}</h3>
+          <h3 className='font-semibold mb'>How to make {recipe!.title}</h3>
           <ul className='pt-2 leading-7 text-sm lg:text-base'>
             <li>1. Preheat the oven to 200 degrees F.</li>
             <li>
@@ -122,7 +142,7 @@ const RecipeDetail = ({
         title: 'Success!',
         content: (
           <p className='p-8'>
-            Succesfully saved <b>{recipe.title}</b> to your saved recipes!
+            Succesfully saved <b>{recipe!.title}</b> to your saved recipes!
           </p>
         ),
       });
@@ -132,7 +152,7 @@ const RecipeDetail = ({
         title: 'Ups!',
         content: (
           <p className='p-8'>
-            You already have <b>{recipe.title}</b> in your saved recipes!
+            You already have <b>{recipe!.title}</b> in your saved recipes!
           </p>
         ),
       });
@@ -183,12 +203,14 @@ const RecipeDetail = ({
   const addToMealPlan = () => {
     setModal({
       show: true,
-      title: `Add ${recipe.title} to your meal plan`,
+      title: `Add ${recipe!.title} to your meal plan`,
       content: (
-        <MealPlanForm mealPlanService={mealPlanService} recipe={recipe} />
+        <MealPlanForm mealPlanService={mealPlanService} recipe={recipe!} />
       ),
     });
   };
+
+  if (!recipe || !nutritions) return null;
 
   return (
     <section>
@@ -196,18 +218,23 @@ const RecipeDetail = ({
         <div className='rounded-md overflow-hidden md:w-1/2 lg:w-2/5'>
           <img
             className='w-full shadow-md object-cover'
-            src={recipe.image}
+            src={recipe!.image}
             alt='Dummy Recipe'
           />
         </div>
         <div className='mt-3 md:w-1/2 md:ml-6 lg:w-3/5'>
-          <h2 className='font-bold text-2xl'>{recipe.title}</h2>
-          <p
-            className='text-sm mt-2 text-justify'
-            dangerouslySetInnerHTML={{ __html: recipe.summary }}></p>
+          <h2 className='font-bold text-2xl'>{recipe!.title}</h2>
 
-          <p className='text-sm mt-4 text-justify'>
-            This <span className='font-medium'>{recipe.title}</span> is quite
+          <h3 className='mt-2 font-semibold text-lg text-gray-800'>
+            Description
+          </h3>
+          <p
+            className='text-sm text-justify'
+            dangerouslySetInnerHTML={{ __html: recipe!.summary }}></p>
+
+          <h3 className='mt-2 font-semibold text-lg text-gray-800'>Taste</h3>
+          <p className='text-sm text-justify'>
+            This <span className='font-medium'>{recipe!.title}</span> is quite
             salty and quite sweet, it also has a little bit of sourness and a
             little bit bitter, but it is pretty savory and spicy. It is suitable
             for people who likes spicy food.
@@ -275,7 +302,7 @@ const RecipeDetail = ({
           <div>
             <h3 className='font-semibold text-green-800 text'>Good:</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
-              {nutritions.good.map((nutrition) => (
+              {nutritions?.good.map((nutrition) => (
                 <div
                   key={nutrition.title}
                   className='bg-green-700 text-white text-sm p-3 inline-block rounded-md'>
@@ -288,7 +315,7 @@ const RecipeDetail = ({
           <div className='mt-8'>
             <h3 className='font-semibold text-red-800 text'>Bad:</h3>
             <div className='grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-2'>
-              {nutritions.bad.map((nutrition) => (
+              {nutritions?.bad.map((nutrition) => (
                 <div
                   key={nutrition.title}
                   className='bg-red-700 text-white text-sm p-3 inline-block rounded-md'>
@@ -303,7 +330,7 @@ const RecipeDetail = ({
       <ContentSection className='mt-9'>
         <h2 className='text-2xl font-bold'>Ingredients</h2>
         <div className='mt-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-3'>
-          {recipe.extendedIngredients.map((ingredient) => (
+          {recipe!.extendedIngredients.map((ingredient) => (
             <div key={ingredient.id} className='p-3 bg-yellow-100 rounded-md'>
               {ingredient.name} ({ingredient.amount + ' ' + ingredient.unit})
             </div>

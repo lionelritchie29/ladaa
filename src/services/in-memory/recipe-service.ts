@@ -9,8 +9,9 @@ export default class RecipeService {
     return recipeJSON.recipes as any;
   }
 
-  getRecipe(id: number): Recipe {
-    return recipeJSON.recipes.find((r) => r.id === id) as any;
+  getRecipe(id: number): Recipe | null {
+    const res = recipeJSON.recipes.find((r) => r.id === id) as any;
+    return (res as Recipe) || null;
   }
 
   getRecipeNutrition(id: number): NutritionWrapper {

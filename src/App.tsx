@@ -43,7 +43,8 @@ export default function App() {
                 </Route>
                 <Route path='/recipes/:id'>
                   <RecipeDetail
-                    recipeService={localRecipeService}
+                    localRecipeService={localRecipeService}
+                    recipeService={apiRecipeService}
                     storageService={storageService}
                     mealPlanService={mealPlanService}
                   />
