@@ -65,7 +65,7 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
       <Hero />
       <Divider />
 
-      {!import.meta.env.VITE_IS_OOAD && (
+      {import.meta.env.VITE_IS_OOAD === 'false' && (
         <ContentSection className='mt-12'>
           <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
             Food Cuisine
@@ -98,7 +98,7 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
       </ContentSection>
       <Divider />
 
-      {!import.meta.env.VITE_IS_OOAD && (
+      {import.meta.env.VITE_IS_OOAD === 'false' && (
         <ContentSection className='mt-12 mb-10'>
           <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
             Find Recipe

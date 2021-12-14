@@ -50,7 +50,7 @@ const Navbar = () => {
                       Saved Recipe
                     </Link>
 
-                    {!import.meta.env.VITE_IS_OOAD && (
+                    {import.meta.env.VITE_IS_OOAD === 'false' && (
                       <Link
                         to='/meal-plan'
                         className='text-gray-100 hover:bg-green-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium'>
@@ -220,7 +220,7 @@ const Navbar = () => {
                     Saved Recipes
                   </Link>
 
-                  {!import.meta.env.VITE_IS_OOAD && (
+                  {import.meta.env.VITE_IS_OOAD === 'false' && (
                     <Link
                       to='/meal-plan'
                       className='text-gray-100 hover:bg-green-700 hover:text-white block px-3 py-2 rounded-md text-base font-medium'>

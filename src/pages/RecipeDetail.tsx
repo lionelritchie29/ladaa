@@ -271,7 +271,10 @@ const RecipeDetail = ({
             for people who likes spicy food.
           </p>
 
-          <If condition={loggedUser !== null && !import.meta.env.VITE_IS_OOAD}>
+          <If
+            condition={
+              loggedUser !== null && import.meta.env.VITE_IS_OOAD === 'false'
+            }>
             <Then>
               <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
                 <SecondaryButton
@@ -291,7 +294,10 @@ const RecipeDetail = ({
       </ContentSection>
 
       <ContentSection className='mt-6'>
-        <If condition={loggedUser !== null && !import.meta.env.VITE_IS_OOAD}>
+        <If
+          condition={
+            loggedUser !== null && import.meta.env.VITE_IS_OOAD === 'false'
+          }>
           <Then>
             <h2 className='font-semibold text-lg mb-2'>Add Rating</h2>
             <form>
@@ -397,7 +403,7 @@ const RecipeDetail = ({
                 Add to Saved
               </button>
 
-              {!import.meta.env.VITE_IS_OOAD && (
+              {import.meta.env.VITE_IS_OOAD === 'false' && (
                 <button
                   onClick={() => addToMealPlan()}
                   className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
@@ -405,7 +411,7 @@ const RecipeDetail = ({
                 </button>
               )}
 
-              {import.meta.env.VITE_IS_OOAD && (
+              {import.meta.env.VITE_IS_OOAD === 'true' && (
                 <button
                   onClick={() => addRating()}
                   className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
