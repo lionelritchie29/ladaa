@@ -210,6 +210,36 @@ const RecipeDetail = ({
     });
   };
 
+  const addRating = () => {
+    setModal({
+      show: true,
+      title: `Add Rating for ${recipe!.title}`,
+      content: (
+        <div>
+          <h2 className='font-semibold text-lg mb-2'>
+            Add Rating for {recipe!.title}
+          </h2>
+          <form>
+            <textarea
+              className='border shadow-sm border-gray-100 bg-gray-100 w-full rounded p-2'
+              rows={5}></textarea>
+
+            <div className='text-right mt-1'>
+              {/* <button className='text-white btn shadow bg-green-600 px-5 font-semibold py-2 rounded-full'>
+              Add Rating
+            </button> */}
+              <SecondaryButton
+                onClickCallback={() => {}}
+                text='Add Rating'
+                className='px-10'
+              />
+            </div>
+          </form>
+        </div>
+      ),
+    });
+  };
+
   if (!recipe || !nutritions)
     return <section className='min-h-screen'></section>;
 
@@ -261,7 +291,7 @@ const RecipeDetail = ({
       </ContentSection>
 
       <ContentSection className='mt-6'>
-        <If condition={loggedUser !== null}>
+        <If condition={loggedUser !== null && !import.meta.env.VITE_IS_OOAD}>
           <Then>
             <h2 className='font-semibold text-lg mb-2'>Add Rating</h2>
             <form>
@@ -342,9 +372,7 @@ const RecipeDetail = ({
       <ContentSection className='mt-9 mb-8'>
         <h2 className='text-2xl font-bold'>Features</h2>
         <div
-          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3 ${
-            import.meta.env.VITE_IS_OOAD ? 'xl:grid-cols-4' : 'xl:grid-cols-5'
-          }`}>
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mt-3`}>
           <button
             onClick={() => showInstructionsModal()}
             className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
@@ -374,6 +402,14 @@ const RecipeDetail = ({
                   onClick={() => addToMealPlan()}
                   className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
                   Add to Meal Plan
+                </button>
+              )}
+
+              {import.meta.env.VITE_IS_OOAD && (
+                <button
+                  onClick={() => addRating()}
+                  className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+                  Add Rating
                 </button>
               )}
             </Then>
