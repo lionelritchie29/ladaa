@@ -241,7 +241,7 @@ const RecipeDetail = ({
             for people who likes spicy food.
           </p>
 
-          <If condition={loggedUser !== null}>
+          <If condition={loggedUser !== null && !import.meta.env.VITE_IS_OOAD}>
             <Then>
               <div className='flex md:flex-col lg:flex-row justify-center mt-4'>
                 <SecondaryButton
@@ -341,7 +341,10 @@ const RecipeDetail = ({
 
       <ContentSection className='mt-9 mb-8'>
         <h2 className='text-2xl font-bold'>Features</h2>
-        <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-3 mt-3'>
+        <div
+          className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-3 mt-3 ${
+            import.meta.env.VITE_IS_OOAD ? 'xl:grid-cols-4' : 'xl:grid-cols-5'
+          }`}>
           <button
             onClick={() => showInstructionsModal()}
             className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
@@ -365,11 +368,14 @@ const RecipeDetail = ({
                 className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
                 Add to Saved
               </button>
-              <button
-                onClick={() => addToMealPlan()}
-                className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
-                Add to Meal Plan
-              </button>
+
+              {!import.meta.env.VITE_IS_OOAD && (
+                <button
+                  onClick={() => addToMealPlan()}
+                  className='btn text-white shadow-md hover:bg-green-500 bg-green-600 px-5 font-semibold py-2 rounded-full'>
+                  Add to Meal Plan
+                </button>
+              )}
             </Then>
           </If>
         </div>

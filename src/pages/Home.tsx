@@ -65,21 +65,23 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
       <Hero />
       <Divider />
 
-      <ContentSection className='mt-12'>
-        <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
-          Food Cuisine
-        </h2>
+      {!import.meta.env.VITE_IS_OOAD && (
+        <ContentSection className='mt-12'>
+          <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
+            Food Cuisine
+          </h2>
 
-        <div className='mt-8 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          {cuisines.map((cuisine) => (
-            <CuisineCard
-              key={cuisine.name}
-              name={cuisine.name}
-              image={cuisine.image}
-            />
-          ))}
-        </div>
-      </ContentSection>
+          <div className='mt-8 grid gap-4 grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            {cuisines.map((cuisine) => (
+              <CuisineCard
+                key={cuisine.name}
+                name={cuisine.name}
+                image={cuisine.image}
+              />
+            ))}
+          </div>
+        </ContentSection>
+      )}
 
       <ContentSection className='mt-12 mb-16'>
         <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
@@ -96,63 +98,69 @@ const Home = ({ recipeService, apiRecipeService }: props) => {
       </ContentSection>
       <Divider />
 
-      <ContentSection className='mt-12 mb-10'>
-        <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
-          Find Recipe
-        </h2>
+      {!import.meta.env.VITE_IS_OOAD && (
+        <ContentSection className='mt-12 mb-10'>
+          <h2 className='text-gray-800 font-bold text-3xl lg:text-4xl xl:text-5xl text-center'>
+            Find Recipe
+          </h2>
 
-        <div>
-          <div className='mt-6 relative rounded-md shadow-sm'>
-            <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
-              <svg
-                className='h-5 w-5 text-gray-400'
-                xmlns='http://www.w3.org/2000/svg'
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                aria-hidden='true'>
-                <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z' />
-                <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z' />
-              </svg>
+          <div>
+            <div className='mt-6 relative rounded-md shadow-sm'>
+              <div className='absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none'>
+                <svg
+                  className='h-5 w-5 text-gray-400'
+                  xmlns='http://www.w3.org/2000/svg'
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  aria-hidden='true'>
+                  <path d='M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z' />
+                  <path d='M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z' />
+                </svg>
+              </div>
+              <form onSubmit={searchRecipes}>
+                <input
+                  type='text'
+                  name='search-recipe'
+                  id='search-recipe'
+                  className='border border-gray-300 focus:ring-indigo-500 py-2 focus:border-indigo-500 block w-full pl-10 sm:text-sm rounded-md'
+                  placeholder='Burger ...'
+                  value={searchValue}
+                  onChange={(e) => setSearchValue(e.target.value)}
+                />
+              </form>
             </div>
-            <form onSubmit={searchRecipes}>
-              <input
-                type='text'
-                name='search-recipe'
-                id='search-recipe'
-                className='border border-gray-300 focus:ring-indigo-500 py-2 focus:border-indigo-500 block w-full pl-10 sm:text-sm rounded-md'
-                placeholder='Burger ...'
-                value={searchValue}
-                onChange={(e) => setSearchValue(e.target.value)}
-              />
-            </form>
           </div>
-        </div>
 
-        <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
-          <If condition={searchRecipesResult.length == 0}>
-            <Then>
-              {recipes
-                .filter((_, idx) => idx < 4)
-                .map((recipe) => (
+          <div className='mt-4 grid gap-4 grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
+            <If condition={searchRecipesResult.length == 0}>
+              <Then>
+                {recipes
+                  .filter((_, idx) => idx < 4)
+                  .map((recipe) => (
+                    <RecipeCard
+                      key={recipe.title}
+                      recipe={recipe}
+                      imageSrc=''
+                    />
+                  ))}
+              </Then>
+              <Else>
+                {searchRecipesResult.map((recipe) => (
                   <RecipeCard key={recipe.title} recipe={recipe} imageSrc='' />
                 ))}
-            </Then>
-            <Else>
-              {searchRecipesResult.map((recipe) => (
-                <RecipeCard key={recipe.title} recipe={recipe} imageSrc='' />
-              ))}
-            </Else>
-          </If>
-        </div>
+              </Else>
+            </If>
+          </div>
 
-        <div className='text-right mt-4'>
-          <Link
-            className='text-blue-500 hover:underline btn'
-            to='/search-recipes'>
-            View More...
-          </Link>
-        </div>
-      </ContentSection>
+          <div className='text-right mt-4'>
+            <Link
+              className='text-blue-500 hover:underline btn'
+              to='/search-recipes'>
+              View More...
+            </Link>
+          </div>
+        </ContentSection>
+      )}
     </section>
   );
 };
